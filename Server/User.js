@@ -99,7 +99,48 @@ router.route('/sign-up').post(urlencodedParser, (req, res, next) => {
 });
 
 router.route('/sign-in').post(urlencodedParser, (req, res, next) => {
-
+  pool.getConnection((err, connection) => {
+    if (!err) {
+      connection.beginTransaction((err) => {
+        if (err) {
+          console.log("Mysql transaction error occured: " + err);
+          connection.rollback(function () {
+            connection.release();
+          });
+        }
+        else {
+          var userID = req.body.userID;
+          var userPWD = req.body.userPWD;
+          var sql = `select * from user_db.user where user.ID = '${userID}';`;
+          connection.query(sql, (err, results) => {
+            if (err) {
+              console.log("Mysql query error occured: " + err);
+              connection.release();
+            }
+            else {
+              if (results.length <= 0) {
+                console.log("Not exist user");
+                return res.status(403).send({ error: 'Not exist user' });
+              }
+              bcrypt.compare(userPWD, results[0].PWD, (err, result) => {
+                if (result) {
+                  res.send({ isCorrectPWD : true });
+                }
+                else {
+                  console.log("Incorrect password");
+                  res.status(403).send({ error: 'Incorrect password' });
+                }
+                connection.release();
+              });
+            }
+          });
+        }
+      });
+    }
+    else {
+      console.log("MySql connection error occured: " + err);
+    }
+  });
 });
 
 router.route('/update-info').post(urlencodedParser, (req, res, next) => {
