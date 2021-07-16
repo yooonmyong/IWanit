@@ -68,6 +68,8 @@ namespace Account
             else
             {
                 Debug.Log("Success to send user data to server!");
+                var sceneController = SceneController.GetInstance();
+                sceneController.LoadScene("SignInScene");
             }
         }
     }
