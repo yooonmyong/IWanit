@@ -1,0 +1,96 @@
+{
+    "development": {
+        "server": {
+            "host": "127.0.0.1",
+            "port": ""
+        },
+        "databases": {
+            "user_db": {
+                "username": "",
+                "password": "",
+                "database": "user_db",
+                "host": "127.0.0.1",
+                "port": "",
+                "pool": {
+                    "max": ,
+                    "min": ,
+                    "idle": 
+                },
+                "dialect": "mysql"
+            },
+            "baby_db": {
+                "username": "",
+                "password": "",
+                "database": "baby_db",
+                "host": "127.0.0.1",
+                "port": "",
+                "pool": {
+                    "max": ,
+                    "min": ,
+                    "idle": 
+                },
+                "dialect": "mysql"
+            },
+            "feature_db": {
+                "username": "",
+                "password": "",
+                "database": "feature_db",
+                "host": "127.0.0.1",
+                "port": "",
+                "pool": {
+                    "max": ,
+                    "min": ,
+                    "idle": 
+                },
+                "dialect": "mysql"
+            }
+        }
+    },
+    "release": {
+        "server": {
+            "host": "",
+            "port": ""
+        },        
+        "databases": {
+            "User": {
+                "username": "",
+                "password": "",
+                "database": "user_db",
+                "host": "",
+                "port": "",
+                "pool": {
+                    "max": ,
+                    "min": ,
+                    "idle": 
+                },
+                "dialect": "mysql"
+            },
+            "Baby": {
+                "username": "",
+                "password": "",
+                "database": "baby_db",
+                "host": "",
+                "port": "",
+                "pool": {
+                    "max": ,
+                    "min": ,
+                    "idle": 
+                },
+                "dialect": "mysql"
+            },
+            "Feature": {
+                "username": "",
+                "password": "",
+                "database": "feature_db",
+                "host": "",
+                "port": "",
+                "pool": {
+                    "max": ,
+                    "min": ,
+                    "idle": 
+                },
+                "dialect": "mysql"
+            }
+        }
+    }
+}
