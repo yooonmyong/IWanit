@@ -21,10 +21,10 @@ exports.SignUp = async (userID, userEmail, userPWD, repeatedUserPWD) => {
     // 이메일 인증 추가 자리
 
     const hashingResult = await new Promise((resolve, reject) => {
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-            if (err) {
-                console.log("Bcrypt generating salt error occured: " + err)                
-                reject(err);
+        bcrypt.genSalt(saltRounds, (bcryptError, salt) => {
+            if (bcryptError) {
+                console.log('Bcrypt generating salt error occured: ' + bcryptError);
+                reject(bcryptError);
             }
             else {
                 bcrypt.hash(userPWD, salt, null, (err, hash) => {

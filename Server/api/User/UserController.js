@@ -1,5 +1,4 @@
 const User = require('../../models')['user'];
-const User_friends = require('../../models')['user_friends'];
 const UserService = require('../../services/UserService');
 
 module.exports = {
@@ -9,38 +8,38 @@ module.exports = {
         var result = await UserService.SignUp(userID, userEmail, req.body.userPWD, req.body.repeatedUserPWD);
 
         if (typeof result.message === 'string') {
-            return res.status(422).json(result);
+            return res.status(422).json(result);    // Error occured.
         }
 
         await User
-        .create({ ID: userID, email: userEmail, PWD: result.message.hashedPWD })
-        .then(() => {
-            console.log("Success to sign up");
-            return res.sendStatus(200);
-        })
-        .catch((err) => {
-            if (err.message === 'Validation error') {
-                result.message = 'Duplicated ID';
-            }
-            else {
-                result.message = err;
-                console.log(err);
-            }
+            .create({ ID: userID, email: userEmail, PWD: result.message.hashedPWD })
+            .then(() => {
+                console.log('Success to sign up');
+                return res.sendStatus(200);
+            })
+            .catch((sequelizeError) => {
+                if (sequelizeError.message === 'Validation error') {
+                    result.message = 'Duplicated ID';
+                }
+                else {
+                    result.message = 'Sequelize occured error';
+                    console.log(sequelizeError);
+                }
 
-            return res.status(500).json(result);
-        });
+                return res.status(500).json(result);
+            });
     },
     FailedSignIn: async (req, res) => {
         return res.status(403).send({ "message": "Incorrect password or Invalid userID" });
     },
-    SignOut: function(req, res, next) {
+    SignOut: (req, res, next) => {
     },
-    UpdateInfo: function(req, res, next) {
+    UpdateInfo: (req, res, next) => {
     },
-    FindID: function(req, res, next) {
+    FindID: (req, res, next) => {
     },
-    FindPWD: function(req, res, next) {
+    FindPWD: (req, res, next) => {
     },
-    DeleteUser: function(req, res, next) {
+    DeleteUser: (req, res, next) => {
     }
 }
