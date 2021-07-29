@@ -1,9 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('./UserController');
+const passport = require('./passport');
 
 router.post('/SignUp', controller.SignUp);
-router.get('/SignIn', controller.SignIn);
+router.post('/SignIn',
+    passport.authenticate(
+        'local', 
+        { 
+            successRedirect: '/Baby/LoadBabyInfo',
+            failureRedirect: '/User/FailedSignIn',
+            failureFlash: false
+        }
+    )
+);
 router.post('/SignOut', controller.SignOut);
 router.post('/UpdateInfo', controller.UpdateInfo);
 router.post('/FindID', controller.FindID);

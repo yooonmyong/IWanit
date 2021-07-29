@@ -30,7 +30,6 @@ module.exports = {
             return res.status(500).json(result);
         });
     },
-    SignIn: function(req, res, next) {
     },
     SignOut: function(req, res, next) {
     },
