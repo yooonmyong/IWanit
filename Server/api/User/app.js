@@ -14,6 +14,7 @@ router.post('/SignIn',
         }
     )
 );
+router.get('/FailedSignIn', controller.FailedSignIn);
 router.post('/SignOut', controller.SignOut);
 router.post('/UpdateInfo', controller.UpdateInfo);
 router.post('/FindID', controller.FindID);

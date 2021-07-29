@@ -30,6 +30,8 @@ module.exports = {
             return res.status(500).json(result);
         });
     },
+    FailedSignIn: async (req, res) => {
+        return res.status(403).send({ "message": "Incorrect password or Invalid userID" });
     },
     SignOut: function(req, res, next) {
     },
