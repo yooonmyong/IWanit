@@ -19,6 +19,7 @@ router.post('/SignOut', controller.SignOut);
 router.post('/UpdateInfo', controller.UpdateInfo);
 router.post('/FindID', controller.FindID);
 router.post('/FindPWD', controller.FindPWD);
+router.get('/SendEmail', controller.SendEmail);
 router.post('/DeleteUser', controller.DeleteUser);
 
 module.exports = router;

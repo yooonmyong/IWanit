@@ -2,6 +2,7 @@ const User = require('../../models')['user'];
 const sequelize = require('../../models/index');
 const UserService = require('../../services/UserService');
 const config = require('../../config/config.json');
+const nodemailer = require('./nodemailer');
 
 module.exports = {
     SignUp: async (req, res) => {
@@ -131,6 +132,21 @@ module.exports = {
             });
         });
     },
+    SendEmail: async (req, res) => {
+        var mailParameters = {
+            sender: req.session.sender,
+            receiver: req.session.receiver,
+            subject: req.session.subject,
+            content: req.session.content
+        };
+
+        nodemailer.sendMail(mailParameters);
+        req.session.sender = null;
+        req.session.receiver = null;
+        req.session.subject = null;
+        req.session.content = null;
+
+        return res.sendStatus(200);
     },
     DeleteUser: (req, res, next) => {
     }
