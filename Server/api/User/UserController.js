@@ -39,6 +39,13 @@ module.exports = {
     FailedSignIn: async (req, res) => {
         return res.status(422).send({ "message": "Incorrect password or Invalid userID" });
     },
+    SignOut: async (req, res) => {
+        req.logout();
+        await req.session.save(() => {
+            console.log('Success to sign out');
+            return res.redirect('/Main');
+        });
+    },
 
         await User
             })
@@ -47,8 +54,6 @@ module.exports = {
                 else {
                 }
             });
-    },
-    SignOut: (req, res, next) => {
     },
     UpdateInfo: (req, res, next) => {
     FindID: async (req, res) => {
