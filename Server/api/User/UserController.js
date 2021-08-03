@@ -36,6 +36,9 @@ module.exports = {
             return res.status(422).json(error);
         }
     },
+    FailedSignIn: async (req, res) => {
+        return res.status(422).send({ "message": "Incorrect password or Invalid userID" });
+    },
 
         await User
             })
@@ -44,9 +47,6 @@ module.exports = {
                 else {
                 }
             });
-    },
-    FailedSignIn: async (req, res) => {
-        return res.status(403).send({ "message": "Incorrect password or Invalid userID" });
     },
     SignOut: (req, res, next) => {
     },
