@@ -46,16 +46,68 @@ module.exports = {
             return res.redirect('/Main');
         });
     },
+    UpdatePWD: async (req, res) => {
+        const originalUserPWD = req.body.originalUserPWD;
+        const changedUserPWD = req.body.changedUserPWD;
+        const repeatedChangedUserPWD = req.body.repeatedChangedUserPWD;
 
         await User
+            .findOne({
+                where: {
+                    ID: req.user.ID
+                }
+            })
+            .then(async (user) => {
+                const compareResult = await new Promise(async (resolve, reject) => {
+                    var result = await UserService.ComparePWD(originalUserPWD, user.PWD);
+
+                    if (result === null) {
+                        reject(result);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+                if (!compareResult) {
+                    return res.status(422).send({ "message": "Incorrect password" });
+                }
             })
             .catch((sequelizeError) => {
+                console.log(sequelizeError);
+                return res.status(500).send({ "Sequelize module occured error": sequelizeError });
+            });
+
+        const checkResult = await UserService.CheckPWD(changedUserPWD, repeatedChangedUserPWD);
+
+        if (checkResult.message === 'Possible password') {
+            await new Promise(async (resolve, reject) => {
+                const result = await UserService.HashPWD(changedUserPWD);
+
+                if (result.hashedPWD) {
+                    User
+                        .update({ PWD: result.hashedPWD }, {
+                            where: {
+                                ID: req.user.ID
+                            }
+                        })
+                        .then(() => {
+                            return res.redirect('/User/SignOut');
+                        })
+                        .catch((sequelizeError) => {
+                            console.log(sequelizeError);
+                            return res.status(500).send({ "message": "Sequelize module occured error: " + sequelizeError });
+                        });
+                    resolve();
                 }
                 else {
+                    reject(res.status(500).send({ "message": result.message }));
                 }
             });
+        }
+        else {
+            return res.status(422).send({ "message": checkResult.message });
+        }
     },
-    UpdateInfo: (req, res, next) => {
     FindID: async (req, res) => {
         const userEmail = req.body.userEmail;
         const userPWD = req.body.userPWD;
