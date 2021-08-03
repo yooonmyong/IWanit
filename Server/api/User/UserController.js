@@ -37,8 +37,50 @@ module.exports = {
     SignOut: (req, res, next) => {
     },
     UpdateInfo: (req, res, next) => {
+    FindID: async (req, res) => {
+        const userEmail = req.body.userEmail;
+        const userPWD = req.body.userPWD;
+
+        await User
+            .findOne({
+                where: {
+                    email: userEmail
+                }
+            })
+            .then(async (user) => {
+                if (!user) {
+                    console.log('Not exist user');
+                    return res.status(404).send({ "message": "Not exist user" });
+                }
+
+                const compareResult = await new Promise(async (resolve, reject) => {
+                    var result = await UserService.ComparePWD(userPWD, user.PWD);
+
+                    if (result === null) {
+                        reject(result);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+                if (compareResult) {
+                    console.log('Send userID to valid email');
+                    req.session.sender = config.development.nodemailer.senderID;
+                    req.session.receiver = userEmail;
+                    req.session.subject = '[IWanit] 회원님의 아이디 입니다'
+                    req.session.content = user.ID + ' 입니다.';
+
+                    return res.redirect("/User/SendEmail");
+                }
+                else {
+                    return res.status(422).send({ "message": "Incorrect password" });
+                }
+            })
+            .catch((sequelizeError) => {
+                console.log(sequelizeError);
+                return res.status(500).send({ "message": "Sequelize module occured error: " + sequelizeError });
+            });
     },
-    FindID: (req, res, next) => {
     FindPWD: async (req, res) => {
         const userID = req.body.userID;
         const userEmail = req.body.userEmail;
