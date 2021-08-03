@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-    secret: config.session.secret,
+    secret: config.development.session.secret,
     resave: false,
     saveUninitialized: true
 }));

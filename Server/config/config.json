@@ -61,6 +61,12 @@
             "host": "",
             "port": ""
         },        
+        "session": {
+            "secret": ""
+        },
+        "bcrypt": {
+            "saltRounds": 
+        },
         "nodemailer": {
             "senderID": "",
             "senderPWD": ""
