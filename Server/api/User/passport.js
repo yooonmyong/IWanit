@@ -36,13 +36,13 @@ passport.use(new LocalStrategy({
             }
 
             const compareResult = await new Promise(async (resolve, reject) => {
-                var result = await UserService.CheckPWD(password, user.PWD);
+                var result = await UserService.ComparePWD(password, user.PWD);
 
-                if (result === null) {
-                    reject(result);
+                if (result === true) {
+                    resolve(result);
                 }
                 else {
-                    resolve(result);
+                    reject(result);                    
                 }
             });
             if (compareResult) {

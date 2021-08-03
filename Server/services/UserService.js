@@ -71,14 +71,13 @@ exports.HashPWD = async (rawPassword) => {
 exports.CheckEmail = (email) => {
 }
 
-exports.CheckPWD = async (inputPWD, userPWD) => {
+exports.ComparePWD = async (inputPWD, userPWD) => {
     if (inputPWD === undefined || userPWD === undefined) {
         console.log('Invalid password');
         return false;
     }
 
     const compareResult = await new Promise((resolve, reject) => {
-        console.log(inputPWD + ", " + userPWD);
         bcrypt.compare(inputPWD, userPWD, (err, result) => {
             if (err) {
                 reject({ "message": "Invalid PWD" });
