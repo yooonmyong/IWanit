@@ -166,6 +166,20 @@ module.exports = {
 
         return res.sendStatus(200);
     },
-    DeleteUser: (req, res, next) => {
+    DeleteUser: async (req, res) => {
+        await User
+            .destroy({
+                where: {
+                    ID: req.user.ID
+                }
+            })
+            .then(() => {
+                console.log('Success to delete account');
+                return res.redirect('/User/SignOut');
+            })
+            .catch((sequelizeError) => {
+                console.log(sequelizeError);
+                return res.status(500).send({ "Sequelize module occured error": sequelizeError });
+            });
     }
 }
