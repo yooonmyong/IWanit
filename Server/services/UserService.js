@@ -1,40 +1,74 @@
 const bcrypt = require('bcrypt-nodejs');
 const config = require('../config/config.json');
 
-exports.SignUp = async (userID, userEmail, userPWD, repeatedUserPWD) => {
-    const regularExpressionforID = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,19}$/;
-    const regularExpressionforPWD = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
-    const saltRounds = config.bcrypt.saltRounds;
+exports.CheckSignUp = async (userID, userEmail, userPWD, repeatedUserPWD) => {
+    const checkResult = await new Promise(async (resolve, reject) => {
+        var result = await this.CheckID(userID);
 
-    if (!regularExpressionforID.test(userID)) {
-        console.log("Inappropriate expression for userID");
+        if (result.message !== 'Possible ID') {
+            reject({ "message": result.message });
+        }
+        else {
+            result = await this.CheckPWD(userPWD, repeatedUserPWD);
+            if (result.message !== 'Possible password') {
+                reject({ "message": result.message });
+            }
+        }
+
+        resolve({ "message": await this.HashPWD(userPWD) });
+    });
+
+    return checkResult;
+}
+
+exports.CheckID = async (id) => {
+    const regularExpressionforID = /^[A-Za-z0-9]{1}[A-Za-z0-9_-]{3,19}$/;
+
+    if (!regularExpressionforID.test(id)) {
+        console.log('Inappropriate expression for userID');
         return { "message": "Inappropriate ID" };
     }
-    else if (!regularExpressionforPWD.test(userPWD)) {
-        console.log("Inappropriate expression for userPWD");
+
+    return { "message": "Possible ID" };
+}
+
+exports.CheckPWD = async (password, repeatedPassword) => {
+    const regularExpressionforPWD = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
+
+    if (!regularExpressionforPWD.test(password)) {
+        console.log('Inappropriate expression for userPWD');
         return { "message": "Inappropriate PWD" };
     }
-    else if (userPWD !== repeatedUserPWD) {
-        console.log("PWDs are not matched");        
+    else if (password !== repeatedPassword) {
+        console.log('PWDs are not matched');
         return { "message": "Not matched PWD" };
     }
-    // 이메일 인증 추가 자리
+
+    return { "message": "Possible password" };
+}
+
+exports.HashPWD = async (rawPassword) => {
+    const saltRounds = config.development.bcrypt.saltRounds;
 
     const hashingResult = await new Promise((resolve, reject) => {
         bcrypt.genSalt(saltRounds, (bcryptError, salt) => {
             if (bcryptError) {
                 console.log('Bcrypt generating salt error occured: ' + bcryptError);
-                reject(bcryptError);
+                reject({ "message": bcryptError });
             }
             else {
-                bcrypt.hash(userPWD, salt, null, (err, hash) => {
+                bcrypt.hash(rawPassword, salt, null, (err, hash) => {
+                    console.log("hashed PWD: " + hash);
                     resolve({ "hashedPWD": hash });
                 });
             }
         });
     });
 
-    return { "message": hashingResult };
+    return hashingResult;
+}
+
+exports.CheckEmail = (email) => {
 }
 
 exports.CheckPWD = async (inputPWD, userPWD) => {

@@ -8,28 +8,41 @@ module.exports = {
     SignUp: async (req, res) => {
         const userID = req.body.userID;
         const userEmail = req.body.userEmail;
-        var result = await UserService.SignUp(userID, userEmail, req.body.userPWD, req.body.repeatedUserPWD);
+        const userPWD = req.body.userPWD;
+        const repeatedUserPWD = req.body.repeatedUserPWD;
 
-        if (typeof result.message === 'string') {
-            return res.status(422).json(result);    // Error occured.
+        try {
+            const result = await UserService.CheckSignUp(userID, userEmail, userPWD, repeatedUserPWD);
+
+            await User
+                .create({ ID: userID, email: userEmail, PWD: result.message.hashedPWD })
+                .then(() => {
+                    console.log('Success to sign up');
+                    return res.sendStatus(200);
+                })
+                .catch((sequelizeError) => {
+                    if (sequelizeError.message === 'Validation error') {
+                        result.message = 'Duplicated ID';
+                    }
+                    else {
+                        result.message = 'Sequelize occured error';
+                        console.log(sequelizeError);
+                    }
+
+                    return res.status(500).json(result);
+                });
         }
+        catch (error) {
+            return res.status(422).json(error);
+        }
+    },
 
         await User
-            .create({ ID: userID, email: userEmail, PWD: result.message.hashedPWD })
-            .then(() => {
-                console.log('Success to sign up');
-                return res.sendStatus(200);
             })
             .catch((sequelizeError) => {
-                if (sequelizeError.message === 'Validation error') {
-                    result.message = 'Duplicated ID';
                 }
                 else {
-                    result.message = 'Sequelize occured error';
-                    console.log(sequelizeError);
                 }
-
-                return res.status(500).json(result);
             });
     },
     FailedSignIn: async (req, res) => {
