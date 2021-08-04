@@ -21,9 +21,9 @@ exports.CheckSignUp = async (userID, userEmail, userPWD, repeatedUserPWD) => {
 }
 
 exports.CheckID = async (id) => {
-    const regularExpressionforID = /^[A-Za-z0-9]{1}[A-Za-z0-9_-]{3,19}$/;
+    const isValidID = /^[A-Za-z0-9]{1}[A-Za-z0-9_-]{3,19}$/.test(id);
 
-    if (!regularExpressionforID.test(id)) {
+    if (!isValidID) {
         console.log('Inappropriate expression for userID');
         return { "message": "Inappropriate ID" };
     }
@@ -32,9 +32,9 @@ exports.CheckID = async (id) => {
 }
 
 exports.CheckPWD = async (password, repeatedPassword) => {
-    const regularExpressionforPWD = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
+    const isValidPWD = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/.test(password);
 
-    if (!regularExpressionforPWD.test(password)) {
+    if (!isValidPWD) {
         console.log('Inappropriate expression for userPWD');
         return { "message": "Inappropriate PWD" };
     } else if (password !== repeatedPassword) {
