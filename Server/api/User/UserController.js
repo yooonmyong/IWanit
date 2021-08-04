@@ -1,8 +1,7 @@
-const User = require('../../models')['user'];
-const sequelize = require('../../models/index');
-const UserService = require('../../services/UserService');
 const config = require('../../config/config.json');
 const nodemailer = require('./nodemailer');
+const User = require('../../models')['user'];
+const UserService = require('../../services/UserService');
 
 module.exports = {
     SignUp: async (req, res) => {

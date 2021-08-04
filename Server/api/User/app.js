@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
 const controller = require('./UserController');
+const express = require('express');
 const passport = require('./passport');
+const router = express.Router();
 
 router.post('/SignUp', controller.SignUp);
 router.post('/SignIn',
