@@ -24,8 +24,7 @@ const nodeMailer = {
         transporter.sendMail(mailOptions, (nodemailerError, info) => {
             if (nodemailerError) {
                 console.log('nodemailer occured error: ' + nodemailerError);
-            }
-            else {
+            } else {
                 console.log('nodemailer sent: ' + info.response);
             }
         });        

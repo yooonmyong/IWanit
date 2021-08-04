@@ -7,8 +7,7 @@ exports.CheckSignUp = async (userID, userEmail, userPWD, repeatedUserPWD) => {
 
         if (result.message !== 'Possible ID') {
             reject({ "message": result.message });
-        }
-        else {
+        } else {
             result = await this.CheckPWD(userPWD, repeatedUserPWD);
             if (result.message !== 'Possible password') {
                 reject({ "message": result.message });
@@ -38,13 +37,12 @@ exports.CheckPWD = async (password, repeatedPassword) => {
     if (!regularExpressionforPWD.test(password)) {
         console.log('Inappropriate expression for userPWD');
         return { "message": "Inappropriate PWD" };
-    }
-    else if (password !== repeatedPassword) {
+    } else if (password !== repeatedPassword) {
         console.log('PWDs are not matched');
         return { "message": "Not matched PWD" };
+    } else {
+        return { "message": "Possible password" };
     }
-
-    return { "message": "Possible password" };
 }
 
 exports.HashPWD = async (rawPassword) => {
@@ -53,12 +51,9 @@ exports.HashPWD = async (rawPassword) => {
     const hashingResult = await new Promise((resolve, reject) => {
         bcrypt.genSalt(saltRounds, (bcryptError, salt) => {
             if (bcryptError) {
-                console.log('Bcrypt generating salt error occured: ' + bcryptError);
                 reject({ "message": bcryptError });
-            }
-            else {
+            } else {
                 bcrypt.hash(rawPassword, salt, null, (err, hash) => {
-                    console.log("hashed PWD: " + hash);
                     resolve({ "hashedPWD": hash });
                 });
             }
@@ -82,10 +77,10 @@ exports.ComparePWD = async (inputPWD, userPWD) => {
             if (err) {
                 reject({ "message": "Invalid PWD" });
             }
+
             if (result) {
                 resolve(true);
-            }
-            else {
+            } else {
                 console.log('Incorrect password');
                 resolve(false);
             }

@@ -11,32 +11,42 @@ module.exports = {
         const repeatedUserPWD = req.body.repeatedUserPWD;
 
         try {
-            const result = await UserService.CheckSignUp(userID, userEmail, userPWD, repeatedUserPWD);
+            const result =
+                await UserService.CheckSignUp(
+                    userID, userEmail, userPWD, repeatedUserPWD
+                );
 
             await User
-                .create({ ID: userID, email: userEmail, PWD: result.message.hashedPWD })
+                .create(
+                    {
+                        ID: userID,
+                        email: userEmail,
+                        PWD: result.message.hashedPWD
+                    }
+                )
                 .then(() => {
                     console.log('Success to sign up');
                     return res.sendStatus(200);
                 })
-                .catch((sequelizeError) => {
-                    if (sequelizeError.message === 'Validation error') {
+                .catch((error) => {
+                    if (error.message === 'Validation error') {
                         result.message = 'Duplicated ID';
-                    }
-                    else {
-                        result.message = 'Sequelize occured error';
-                        console.log(sequelizeError);
+                    } else {
+                        result.message = error;
+                        console.log(error);
                     }
 
                     return res.status(500).json(result);
                 });
-        }
-        catch (error) {
+        } catch (error) {
+            console.log('Failed to sign up');
             return res.status(422).json(error);
         }
     },
     FailedSignIn: async (req, res) => {
-        return res.status(422).send({ "message": "Incorrect password or Invalid userID" });
+        return res.status(422).send({ 
+            "message": "Incorrect password or Invalid userID" 
+        });
     },
     SignOut: async (req, res) => {
         req.logout();
@@ -120,7 +130,9 @@ module.exports = {
             .then(async (user) => {
                 if (!user) {
                     console.log('Not exist user');
-                    return res.status(404).send({ "message": "Not exist user" });
+                    return res.status(404).send({ 
+                        "message": "Not exist user" 
+                    });
                 }
 
                 const compareResult = await new Promise(async (resolve, reject) => {
@@ -148,7 +160,7 @@ module.exports = {
             })
             .catch((sequelizeError) => {
                 console.log(sequelizeError);
-                return res.status(500).send({ "message": "Sequelize module occured error: " + sequelizeError });
+                return res.status(500).send({ "message": sequelizeError });
             });
     },
     FindPWD: async (req, res) => {
@@ -230,7 +242,7 @@ module.exports = {
             })
             .catch((sequelizeError) => {
                 console.log(sequelizeError);
-                return res.status(500).send({ "Sequelize module occured error": sequelizeError });
+                return res.status(500).send({ "message": sequelizeError });
             });
     }
 }

@@ -9,12 +9,17 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((userID, done) => {
-    User.findByPk(userID).then(user => {
-        if (user !== undefined) {
-            console.log('Deserialize user: ' + userID);
+    User
+        .findByPk(userID)
+        .then((user) => {
+            if (!user) {
+                console.log('Failed to deserialize user');
+                done({ "message": "Failed to deserialize user" });
+            }
+
+            console.log('Deserialize user');
             done(null, user);
-        }
-    })
+        });
 });
 
 passport.use(new LocalStrategy({
@@ -55,7 +60,7 @@ passport.use(new LocalStrategy({
         })
         .catch((sequelizeError) => {
             console.log(sequelizeError);
-            return done({ "message": "Sequelize module occured error: " + sequelizeError });
+            return done({ "message": sequelizeError });
         });
 }));
 
