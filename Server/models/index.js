@@ -9,9 +9,9 @@ const db = {};
 
 const databases = Object.keys(config.databases);
 
-for (var i = 0; i < databases.length; i++) {
-    var database = databases[i];
-    var dbPath = config.databases[database];
+for (let i = 0; i < databases.length; i++) {
+    let database = databases[i];
+    let dbPath = config.databases[database];
 
     db[database] = new Sequelize(
         dbPath.database,

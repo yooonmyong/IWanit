@@ -3,7 +3,7 @@ const config = require('../config/config.json');
 
 exports.CheckSignUp = async (userID, userEmail, userPWD, repeatedUserPWD) => {
     const checkResult = await new Promise(async (resolve, reject) => {
-        var result = await this.CheckID(userID);
+        let result = await this.CheckID(userID);
 
         if (result.message !== 'Possible ID') {
             reject({ "message": result.message });

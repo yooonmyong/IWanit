@@ -1,10 +1,10 @@
-var DataTypes = require("sequelize").DataTypes;
-var _user = require("./user");
-var _user_friends = require("./user_friends");
+const DataTypes = require("sequelize").DataTypes;
+const _user = require("./user");
+const _user_friends = require("./user_friends");
 
 function initModels(sequelize) {
-  var user = _user(sequelize, DataTypes);
-  var user_friends = _user_friends(sequelize, DataTypes);
+  const user = _user(sequelize, DataTypes);
+  const user_friends = _user_friends(sequelize, DataTypes);
 
   return {
     user,

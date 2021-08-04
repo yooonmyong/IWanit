@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 
 const nodeMailer = {
     sendMail: (mailParameters) => {
-        var transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',
             port: 587,
@@ -14,7 +14,7 @@ const nodeMailer = {
             },
         });
         
-        var mailOptions = {
+        const mailOptions = {
             from: mailParameters.sender,
             to: mailParameters.receiver,
             subject: mailParameters.subject,

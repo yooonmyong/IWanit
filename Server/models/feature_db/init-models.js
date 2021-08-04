@@ -1,12 +1,12 @@
-var DataTypes = require("sequelize").DataTypes;
-var _food = require("./food");
-var _playing = require("./playing");
-var _style = require("./style");
+const DataTypes = require("sequelize").DataTypes;
+const _food = require("./food");
+const _playing = require("./playing");
+const _style = require("./style");
 
 function initModels(sequelize) {
-  var food = _food(sequelize, DataTypes);
-  var playing = _playing(sequelize, DataTypes);
-  var style = _style(sequelize, DataTypes);
+  const food = _food(sequelize, DataTypes);
+  const playing = _playing(sequelize, DataTypes);
+  const style = _style(sequelize, DataTypes);
 
   return {
     food,

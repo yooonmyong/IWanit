@@ -1,12 +1,12 @@
-var DataTypes = require("sequelize").DataTypes;
-var _baby = require("./baby");
-var _baby_taste = require("./baby_taste");
-var _baby_language = require("./baby_language");
+const DataTypes = require("sequelize").DataTypes;
+const _baby = require("./baby");
+const _baby_taste = require("./baby_taste");
+const _baby_language = require("./baby_language");
 
 function initModels(sequelize) {
-  var baby = _baby(sequelize, DataTypes);
-  var baby_taste = _baby_taste(sequelize, DataTypes);
-  var baby_language = _baby_language(sequelize, DataTypes);
+  const baby = _baby(sequelize, DataTypes);
+  const baby_taste = _baby_taste(sequelize, DataTypes);
+  const baby_language = _baby_language(sequelize, DataTypes);
 
   return {
     baby,
