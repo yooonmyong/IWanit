@@ -49,7 +49,7 @@ passport.use(new LocalStrategy({
                 }
 
                 console.log('Success to sign in');
-                return done(null, false);
+                return done(null, user);
             } catch (error) {
                 console.log('Failed to compare passwords');
                 return done(error);

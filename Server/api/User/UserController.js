@@ -43,11 +43,6 @@ module.exports = {
             return res.status(422).json(error);
         }
     },
-    FailedSignIn: async (req, res) => {
-        return res.status(422).send({ 
-            "message": "Incorrect password or Invalid userID" 
-        });
-    },
     SignOut: async (req, res) => {
         req.logout();
         await req.session.save(() => {

@@ -4,17 +4,27 @@ const passport = require('./passport');
 const router = express.Router();
 
 router.post('/SignUp', controller.SignUp);
-router.post('/SignIn',
-    passport.authenticate(
-        'local', 
-        { 
-            successRedirect: '/Baby/LoadBabyInfo',
-            failureRedirect: '/User/FailedSignIn',
-            failureFlash: false
+router.post('/SignIn', (req, res) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return res.status(500).send({ "message": err });
         }
-    )
-);
-router.get('/FailedSignIn', controller.FailedSignIn);
+
+        if (!user) {
+            return res.status(422).send({ "message": "Trying to access using invalid userID" });
+        }
+
+        return req.login(user, err => {
+            if (err) {
+                return res.status(500).send({ "message": err });
+            }
+            const fillteredUser = { ...user.dataValues };
+            console.dir(fillteredUser);
+            delete fillteredUser.password;
+            return res.json(fillteredUser);
+        });
+    })(req, res);
+});
 router.get('/SignOut', controller.SignOut);
 router.post('/UpdatePWD', controller.UpdatePWD);
 router.post('/FindID', controller.FindID);
