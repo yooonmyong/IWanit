@@ -40,22 +40,19 @@ passport.use(new LocalStrategy({
                 return done(null, false);
             }
 
-            const compareResult = await new Promise(async (resolve, reject) => {
-                var result = await UserService.ComparePWD(password, user.PWD);
+            try {
+                const isSamePWD =
+                    await UserService.ComparePWD(password, user.PWD);
 
-                if (result === true) {
-                    resolve(result);
+                if (!isSamePWD) {
+                    return done(null, false);
                 }
-                else {
-                    reject(result);                    
-                }
-            });
-            if (compareResult) {
+
                 console.log('Success to sign in');
-                return done(null, user);
-            }
-            else {
                 return done(null, false);
+            } catch (error) {
+                console.log('Failed to compare passwords');
+                return done(error);
             }
         })
         .catch((sequelizeError) => {

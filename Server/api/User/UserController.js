@@ -60,60 +60,48 @@ module.exports = {
         const changedUserPWD = req.body.changedUserPWD;
         const repeatedChangedUserPWD = req.body.repeatedChangedUserPWD;
 
-        await User
-            .findOne({
-                where: {
-                    ID: req.user.ID
-                }
-            })
-            .then(async (user) => {
-                const compareResult = await new Promise(async (resolve, reject) => {
-                    var result = await UserService.ComparePWD(originalUserPWD, user.PWD);
-
-                    if (result === null) {
-                        reject(result);
-                    }
-                    else {
-                        resolve(result);
-                    }
+        try {
+            const isSamePWD =
+                await UserService.ComparePWD(originalUserPWD, req.user.PWD);
+            if (!isSamePWD) {
+                return res.status(422).send({ 
+                    "message": "Incorrect password" 
                 });
-                if (!compareResult) {
-                    return res.status(422).send({ "message": "Incorrect password" });
-                }
-            })
-            .catch((sequelizeError) => {
-                console.log(sequelizeError);
-                return res.status(500).send({ "Sequelize module occured error": sequelizeError });
-            });
-
-        const checkResult = await UserService.CheckPWD(changedUserPWD, repeatedChangedUserPWD);
+            }
+        }
+        catch (error) {
+            console.log('Failed to compare passwords');
+            return res.status(500).json(error);
+        }
+        const checkResult =
+            await UserService.CheckPWD(changedUserPWD, repeatedChangedUserPWD);
 
         if (checkResult.message === 'Possible password') {
-            await new Promise(async (resolve, reject) => {
+            try {
                 const result = await UserService.HashPWD(changedUserPWD);
 
-                if (result.hashedPWD) {
-                    User
-                        .update({ PWD: result.hashedPWD }, {
-                            where: {
-                                ID: req.user.ID
-                            }
-                        })
-                        .then(() => {
-                            return res.redirect('/User/SignOut');
-                        })
-                        .catch((sequelizeError) => {
-                            console.log(sequelizeError);
-                            return res.status(500).send({ "message": "Sequelize module occured error: " + sequelizeError });
+                User
+                    .update({ PWD: result.hashedPWD }, {
+                        where: {
+                            ID: req.user.ID
+                        }
+                    })
+                    .then(() => {
+                        console.log('Success to update password');
+                        return res.redirect('/User/SignOut');
+                    })
+                    .catch((sequelizeError) => {
+                        console.log(sequelizeError);
+                        return res.status(500).send({
+                            "message": sequelizeError
                         });
-                    resolve();
-                }
-                else {
-                    reject(res.status(500).send({ "message": result.message }));
-                }
-            });
-        }
-        else {
+                    });
+            } catch (error) {
+                console.log('Failed to hash password');
+                return res.status(500).json(error);
+            }
+        } else {
+            console.log('Failed to update password');
             return res.status(422).send({ "message": checkResult.message });
         }
     },
@@ -135,17 +123,15 @@ module.exports = {
                     });
                 }
 
-                const compareResult = await new Promise(async (resolve, reject) => {
-                    var result = await UserService.ComparePWD(userPWD, user.PWD);
+                try {
+                    const isSamePWD =
+                        await UserService.ComparePWD(userPWD, user.PWD);
+                    if (!isSamePWD) {
+                        return res.status(422).send({ 
+                            "message": "Incorrect password" 
+                        });
+                    }
 
-                    if (result === null) {
-                        reject(result);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                });
-                if (compareResult) {
                     console.log('Send userID to valid email');
                     req.session.sender = config.development.nodemailer.senderID;
                     req.session.receiver = userEmail;
@@ -153,9 +139,9 @@ module.exports = {
                     req.session.content = user.ID + ' 입니다.';
 
                     return res.redirect("/User/SendEmail");
-                }
-                else {
-                    return res.status(422).send({ "message": "Incorrect password" });
+                } catch (error) {
+                    console.log('Failed to compare passwords');
+                    return res.status(500).json(error);
                 }
             })
             .catch((sequelizeError) => {
@@ -168,53 +154,49 @@ module.exports = {
         const userEmail = req.body.userEmail;
         const temporaryPWD = Math.random().toString(36).slice(2);
 
-        sequelize['user_db'].transaction(async (tx) => {
-            const user = await User
-                .findOne({
+        try {
+            const result = await UserService.HashPWD(temporaryPWD);
+
+            User
+                .update({ PWD: result.hashedPWD }, {
                     where: {
                         ID: userID,
                         email: userEmail
                     }
-                }, { transaction: tx });
-
-            if (!user) {
-                return res.status(404).send({ "message": "Not exist user" });
-            }
-
-            await new Promise(async (resolve, reject) => {
-                var result = await UserService.HashPWD(temporaryPWD);
-
-                if (result.hashedPWD) {
-                    User
-                        .update({ PWD: result.hashedPWD }, {
-                            where: {
-                                ID: user.ID,
-                                email: user.email
-                            }
-                        }, { transaction: tx })
-                        .then(() => {
-                            console.log('Send temporary password to valid email');
-                            req.session.sender = config.development.nodemailer.senderID;
-                            req.session.receiver = userEmail;
-                            req.session.subject = '[IWanit] 회원님의 임시 비밀번호 입니다'
-                            req.session.content = temporaryPWD + ' 입니다. 로그인 후 꼭 비밀번호를 변경해주시기 바랍니다.';
-
-                            return res.redirect("/User/SendEmail");
-                        })
-                        .catch((sequelizeError) => {
-                            console.log(sequelizeError);
-                            return res.status(500).send({ "Sequelize module occured error": sequelizeError });
+                })
+                .then((result) => {
+                    if (result.includes(0)) {
+                        console.log('Not exist user');
+                        return res.status(404).send({ 
+                            "message": "Not exist user" 
                         });
-                    resolve();
-                }
-                else {
-                    reject(res.status(500).send({ "message": result.message }));
-                }
-            });
-        });
+                    }
+
+                    console.log('Send temporary password to valid email');
+                    req.session.sender =
+                        config.development.nodemailer.senderID;
+                    req.session.receiver = userEmail;
+                    req.session.subject =
+                        '[IWanit] 회원님의 임시 비밀번호 입니다'
+                    req.session.content =
+                        temporaryPWD
+                        + ' 입니다. 로그인 후 꼭 비밀번호를 변경하시길 바랍니다.';
+
+                    return res.redirect("/User/SendEmail");
+                })
+                .catch((sequelizeError) => {
+                    console.log(sequelizeError);
+                    return res.status(500).send({
+                        "message": sequelizeError
+                    });
+                });
+        } catch (error) {
+            console.log('Failed to hash password');
+            return res.status(500).json(error);
+        }
     },
     SendEmail: async (req, res) => {
-        var mailParameters = {
+        const mailParameters = {
             sender: req.session.sender,
             receiver: req.session.receiver,
             subject: req.session.subject,
@@ -230,7 +212,21 @@ module.exports = {
         return res.sendStatus(200);
     },
     DeleteUser: async (req, res) => {
-        await User
+        const repeatedUserPWD = req.body.repeatedUserPWD;
+
+        try {
+            const isSamePWD =
+                await UserService.ComparePWD(repeatedUserPWD, req.user.PWD);
+            if (!isSamePWD) {
+                return res.status(422).send({ 
+                    "message": "Incorrect password" 
+                });
+            }
+        } catch (error) {
+            console.log('Failed to compare passwords');
+            return res.status(500).json(error);
+        }
+        User
             .destroy({
                 where: {
                     ID: req.user.ID
