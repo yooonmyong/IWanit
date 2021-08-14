@@ -26,7 +26,7 @@ module.exports = {
                 )
                 .then(() => {
                     console.log('Success to sign up');
-                    return res.sendStatus(200);
+                    return res.sendStatus(201);
                 })
                 .catch((error) => {
                     if (error.message === 'Validation error') {
