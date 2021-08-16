@@ -1,10 +1,26 @@
+// Entry point (In here, call middleware you need)
 const express = require('express'); 
-const userRouter = require('./User');
-const app = express(); 
+const app = express();
+const bodyParser = require('body-parser');
+const config = require('./config/config.json');
+const passport = require('passport');
+const session = require('express-session');
 
-app.use('/User', userRouter);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: config.development.session.secret,
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-var port = ;
-app.listen(port, () => {
-    console.log('Server started at ' + port);
+app.use('/User', require('./api/User/app'));
+app.use('/Baby', require('./api/Baby/app'));
+
+app.get('/Main', (req, res) => {
+    return res.sendStatus(200);
 });
+
+module.exports = app;
