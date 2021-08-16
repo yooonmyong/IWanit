@@ -25,11 +25,11 @@ router.post('/SignIn', (req, res) => {
         });
     })(req, res);
 });
-router.get('/SignOut', controller.SignOut);
-router.post('/UpdatePWD', controller.UpdatePWD);
+router.delete('/SignOut', controller.SignOut);
+router.patch('/UpdatePWD', controller.UpdatePWD);
 router.post('/FindID', controller.FindID);
 router.post('/FindPWD', controller.FindPWD);
 router.get('/SendEmail', controller.SendEmail);
-router.get('/DeleteUser', controller.DeleteUser);
+router.delete('/DeleteUser', controller.DeleteUser);
 
 module.exports = router;
