@@ -24,7 +24,7 @@ namespace Account
         private IEnumerator SignInCoroutine()
         {
             var form = new WWWForm();
-            var URL = "http://127.0.0.1:/User/sign-in";
+            var URL = "http://" + Config.developServer + "/User/SignIn";
             form.AddField("userID", UserIDField.text);
             form.AddField("userPWD", UserPWDField.text);
             UnityWebRequest www = UnityWebRequest.Post(URL, form);

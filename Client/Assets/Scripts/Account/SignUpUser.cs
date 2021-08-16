@@ -29,7 +29,7 @@ namespace Account
         private IEnumerator SignUpCoroutine()
         {
             var form = new WWWForm();
-            var URL = "http://127.0.0.1:/User/sign-up";
+            var URL = "http://" + Config.developServer + "/User/SignUp";
             form.AddField("userID", UserIDField.text);
             form.AddField("userEmail", UserEmailField.text);
             form.AddField("userPWD", UserPWDField.text);
