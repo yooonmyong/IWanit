@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Module;
 
 namespace Account
@@ -37,18 +35,23 @@ namespace Account
             }
             else
             {
-                Debug.Log("Success to send name data to server!");
+                Debug.Log("Success to send sign-in data to server!");
             }
 
-            if (www.responseCode == 403)
+            switch(www.responseCode)
             {
-                ErrorPopUpUI.SetActive(true);
-            }
-            else
-            {
-                var response = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
-                var result = JsonConvert.DeserializeObject<JObject>(response);
-                Debug.Log("Success to sign in");
+                case 422:
+                    Debug.Log("Trying to access using invalid userID");
+                    ErrorPopUpUI.SetActive(true);
+                    break;
+                case 500:
+                    Debug.Log("Server or database error occured");
+                    break;
+                default:
+                    Debug.Log("Success to sign in");
+                    var sceneController = SceneController.GetInstance();
+                    sceneController.LoadScene("GameScene");
+                    break;
             }
         }
     }
