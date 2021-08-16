@@ -44,17 +44,10 @@ module.exports = {
         }
     },
     SignOut: async (req, res) => {
-        const result = { "message": "Success to sign out" };
-
-        if (req.session.isDelete) {
-            result.message = "Success to delete user";
-            req.session.isDelete = null;
-        }
-
         req.logout();
         await req.session.save(() => {
-            console.log(result.message);
-            return res.status(204).json(result);
+            console.log("Success to sign out");
+            return res.sendStatus(204);
         });
     },
     UpdatePWD: async (req, res) => {
@@ -234,10 +227,12 @@ module.exports = {
                     ID: req.user.ID
                 }
             })
-            .then(() => {
+            .then(async () => {
                 console.log('Success to delete account');
-                req.session.isDelete = true;
-                return res.redirect('/User/SignOut');
+                req.logout();
+                await req.session.save(() => {
+                    return res.sendStatus(204);
+                });
             })
             .catch((sequelizeError) => {
                 console.log(sequelizeError);
