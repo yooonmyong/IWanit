@@ -13,7 +13,8 @@ namespace Module
             RectTransform canvasRect = CanvasUI.GetComponent<RectTransform>();
             RectTransform popupRect = PopUpUI.GetComponent<RectTransform>();
 
-            popupRect.sizeDelta = new Vector2( canvasRect.rect.width, canvasRect.rect.height );
+            popupRect.sizeDelta = 
+                new Vector2( canvasRect.rect.width, canvasRect.rect.height );
         }
     }
 }
