@@ -13,12 +13,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: false
     },
+    Months: {
+      type: DataTypes.SMALLINT,
+      allowNull: false
+    },
     Level: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.JSON,
       allowNull: false
     },
     Weight: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL(4,2),
       allowNull: false
     },
     Appearance: {

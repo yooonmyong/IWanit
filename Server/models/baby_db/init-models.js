@@ -8,6 +8,13 @@ function initModels(sequelize) {
   const baby_taste = _baby_taste(sequelize, DataTypes);
   const baby_language = _baby_language(sequelize, DataTypes);
 
+  baby.belongsTo(user, { as: "ID_user", foreignKey: "ID"});
+  user.hasOne(baby, { as: "baby", foreignKey: "ID"});
+  baby_language.belongsTo(user, { as: "ID_user", foreignKey: "ID"});
+  user.hasOne(baby_language, { as: "baby_language", foreignKey: "ID"});
+  baby_taste.belongsTo(user, { as: "ID_user", foreignKey: "ID"});
+  user.hasOne(baby_taste, { as: "baby_taste", foreignKey: "ID"});
+
   return {
     baby,
     baby_taste,
