@@ -15,6 +15,7 @@ namespace Baby
         public InputField BabyNameField;
         public GameObject PuttingNamePanel;
         public GameObject ErrorPopUpUI;
+        public LoadingBaby loadingBaby;
 
         public void PutName()
         {
