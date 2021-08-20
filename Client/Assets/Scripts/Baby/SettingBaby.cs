@@ -43,9 +43,9 @@ namespace Baby
                 else 
                 {
                     Debug.Log("Success to send name data to server!");
+                    StartCoroutine(loadingBaby.LoadBabyInfoCoroutine());
+                    PuttingNamePanel.SetActive(false);
                 }
-
-                PuttingNamePanel.SetActive(false);
             }
         }
     }
