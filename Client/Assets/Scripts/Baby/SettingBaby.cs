@@ -32,8 +32,7 @@ namespace Baby
             else 
             {
                 var form = new WWWForm();
-                var URL = 
-                    "http://" + Config.developServer + "/Baby/SetInitialBaby";
+                var URL = Config.developServer + "/Baby/SetInitialBaby";
                 form.AddField("babyName", BabyNameField.text);
                 UnityWebRequest www = UnityWebRequest.Post(URL, form); 
                 yield return www.SendWebRequest();
