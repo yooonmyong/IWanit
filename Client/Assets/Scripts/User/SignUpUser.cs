@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Module;
 
-namespace Account
+namespace User
 {
     public class SignUpUser : MonoBehaviour
     {

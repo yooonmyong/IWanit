@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Module;
 
-namespace Account
+namespace User
 {
     public class SignInUser : MonoBehaviour
     {
