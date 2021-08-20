@@ -1,147 +1,24 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace Baby {
-    public class BabyObject {
-        public String Name 
+namespace Baby
+{
+    public class BabyObject : MonoBehaviour
+    {
+        private BabyInfo babyInfo;
+
+        public void Init(BabyInfo babyInfo, Transform parentTransform)
         {
-            get;
+            this.babyInfo = babyInfo;
+            this.transform.SetParent(parentTransform);
+            this.transform.localPosition = new Vector3(0, 0, 0);
+            this.transform.localScale += new Vector3(50, 50, 50);
         }
 
-        public int Months
+        public BabyInfo GetBaby()
         {
-            get; set;
+            return babyInfo;
         }
-
-        public Dictionary<String, Skills> Level
-        {
-            get;
-        }
-
-        public Decimal Weight
-        {
-            get; set;
-        }
-
-        public Dictionary<String, AppearanceFeatures> Appearance
-        {
-            get;
-        }
-
-        public Dictionary<String, TemperamentFeatures> Temperament
-        {
-            get;
-        }        
-    }
-
-    public class Skills {
-        public int toilet
-        {
-            get; set;
-        }
-
-        public int walking
-        {
-            get; set;
-        }        
-
-        public int speaking
-        {
-            get; set;
-        }        
-    }
-
-    public class AppearanceFeatures {
-        public Dictionary<String, ChangeableFeatures> changeable
-        {
-            get;
-        }
-
-        public Dictionary<String, UnchangeableFeatures> unchangeable
-        {
-            get;
-        }        
-    }
-
-    public class ChangeableFeatures {
-        public int hairStyle
-        {
-            get; set;
-        }
-
-        public int clothes
-        {
-            get; set;
-        }
-
-        public int body
-        {
-            get; set;
-        }        
-    }
-
-    public class UnchangeableFeatures {
-        public int hairColor
-        {
-            get;
-        }
-
-        public int eyebrow
-        {
-            get;
-        }
-
-        public int eye
-        {
-            get;
-        }
-
-        public int nose
-        {
-            get;
-        }
-
-        public int lip
-        {
-            get;
-        }      
-
-        public int ear
-        {
-            get;
-        }
-
-        public int skin
-        {
-            get;
-        }        
-    }
-
-    public class TemperamentFeatures {
-        public Decimal activity
-        {
-            get;
-        }
-
-        public Decimal intensity
-        {
-            get;
-        }
-
-        public Decimal regularity
-        {
-            get;
-        }
-
-        public Decimal adaptability
-        {
-            get;
-        }
-
-        public Decimal attentionPersistence
-        {
-            get;
-        }        
     }
 }
