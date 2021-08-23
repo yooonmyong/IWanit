@@ -62,33 +62,4 @@ public class BabyTest
             () => babyInfo.Temperament = temperament
         );
     }
-
-    [Test]
-    public void checkBehaviorWebRequestSendPost()
-    {
-        // BasicHttpClient http_client = 
-        //     (new GameObject("BasicHttpClient")).AddComponent();
-        // IGoedleUploadHandler goedleUploadHandler = Substitute.For();
-        // IGoedleWebRequest goedleWebRequest = Substitute.For();
-        // string stringContent = null;
-        
-        // goedleUploadHandler.add(Arg.Do(x => stringContent = x));
-        // goedleWebRequest.isHttpError.Returns(false);
-        // goedleWebRequest.isNetworkError.Returns(false);
-        // http_client
-        //     .Post
-        //     (
-        //         "http://127.0.0.1/User/SignIn",
-        //         "{\"userID\": \"1229kym\", \"userPWD\": \"abcd1234\"}", 
-        //         goedleWebRequest, 
-        //         goedleUploadHandler
-        //     );
-        // var result = JSON.Parse(stringContent);
-        // Assert.AreEqual(result["userID"].Value, "1229kym");
-        // Assert.AreEqual(result["userPWD"].Value, "abcd1234");
-        // Assert.AreEqual
-        // (
-        //     goedleWebRequest.responseCode, 204
-        // );
-    }
 }

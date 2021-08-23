@@ -38,8 +38,6 @@ namespace Baby
             }
         }
 
-        // automatic property. 
-        // 보통은 private변수를 따로 두고 이에 대한 get,set을 관리하는 public property가 있음(위 ID처럼)
         public string Name
         {
             get
