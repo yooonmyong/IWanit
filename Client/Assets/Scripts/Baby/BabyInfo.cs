@@ -12,6 +12,7 @@ namespace Baby
     public class BabyInfo
     {
         private string id;
+        private string uuid;
         private string name;
         private Dictionary<string, int> level;
         private Decimal weight;
@@ -37,6 +38,25 @@ namespace Baby
                 writeOnce.AlreadyWrite("ID");
             }
         }
+
+        public string UUID
+        {
+            get
+            {
+                return uuid;
+            }
+
+            set
+            {
+                if (writeOnce.isAlreadyWrite("UUID"))
+                {
+                    throw new InvalidOperationException("Value already set");
+                }
+
+                uuid = value;
+                writeOnce.AlreadyWrite("UUID");
+            }
+        }        
 
         public string Name
         {
