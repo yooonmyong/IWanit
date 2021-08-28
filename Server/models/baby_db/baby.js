@@ -9,12 +9,17 @@ module.exports = function(sequelize, DataTypes) {
         key: 'ID'
       }
     },
+    UUID: {
+      type: DataTypes.CHAR(36),
+      allowNull: false,
+      primaryKey: true
+    },
     Name: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
     Months: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.SMALLINT.UNSIGNED,
       allowNull: false
     },
     Level: {
@@ -44,6 +49,7 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID" },
+          { name: "UUID" },
         ]
       },
     ]

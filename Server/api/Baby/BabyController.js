@@ -3,6 +3,7 @@ const BabyTaste = require('../../models')['baby_taste'];
 const BabyLanguage = require('../../models')['baby_language'];
 const BabyService = require('../../services/BabyService');
 const config = require('../../config/settingBaby.json');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     SetInitialBaby: async (req, res) => {
@@ -19,6 +20,7 @@ module.exports = {
         Baby
             .create({
                 ID: req.user.ID,
+                UUID: uuidv4(),
                 Name: babyName,
                 Months: 0,
                 Level: babyLevel,
