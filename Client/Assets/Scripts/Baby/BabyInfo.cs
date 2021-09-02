@@ -17,7 +17,7 @@ namespace Baby
         private Dictionary<string, int> level;
         private Decimal weight;
         private Dictionary<string, Decimal> temperament;
-        private Dictionary<string, Dictionary<string, int>> appearance;
+        private Dictionary<string, Dictionary<string, string>> appearance;
         private WriteOnce writeOnce = new WriteOnce();
 
         public string ID
@@ -138,7 +138,7 @@ namespace Baby
             }
         }
 
-        public Dictionary<string, Dictionary<string, int>> Appearance
+        public Dictionary<string, Dictionary<string, string>> Appearance
         {
             get
             {
@@ -151,7 +151,7 @@ namespace Baby
                 {
                     throw new InvalidOperationException
                     (
-                        "Use `'UpdateAppearance(string, string, int)`'"
+                        "Use `'UpdateAppearance(string, string, string)`'"
                     );
                 }
 
@@ -160,7 +160,7 @@ namespace Baby
             }
         }
 
-        public void UpdateAppearance(string kind, string feature, int value)
+        public void UpdateAppearance(string kind, string feature, string value)
         {
             if 
             (

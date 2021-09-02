@@ -13,16 +13,16 @@ public class BabyTest
     {
         BabyInfo babyInfo = new BabyInfo();
         Dictionary<string, int> level = new Dictionary<string, int>();
-        Dictionary<string, Dictionary<string, int>> appearance = 
-            new Dictionary<string, Dictionary<string, int>>();
-        Dictionary<string, int> appearanceFeature = 
-            new Dictionary<string, int>();
+        Dictionary<string, Dictionary<string, string>> appearance = 
+            new Dictionary<string, Dictionary<string, string>>();
+        Dictionary<string, string> appearanceFeature = 
+            new Dictionary<string, string>();
         Dictionary<string, Decimal> temperament = 
             new Dictionary<string, Decimal>();
 
         level.Add("toilet", 1);
 
-        appearanceFeature.Add("aa", 2);
+        appearanceFeature.Add("aa", "aaccdd");
         appearance.Add("unchangeable", appearanceFeature);
         appearance.Add("changeable", appearanceFeature);
 
@@ -53,10 +53,10 @@ public class BabyTest
         );
         Assert.Throws<InvalidOperationException>
         (
-            () => babyInfo.UpdateAppearance("unchangeable", "aa", 3)
+            () => babyInfo.UpdateAppearance("unchangeable", "aa", "abab")
         );
-        babyInfo.UpdateAppearance("changeable", "aa", 5);
-        Assert.AreEqual(babyInfo.Appearance["changeable"]["aa"], 5);
+        babyInfo.UpdateAppearance("changeable", "aa", "abab");
+        Assert.AreEqual(babyInfo.Appearance["changeable"]["aa"], "abab");
         Assert.Throws<InvalidOperationException>
         (
             () => babyInfo.Temperament = temperament
