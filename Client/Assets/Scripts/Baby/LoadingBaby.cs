@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Module;
 
 namespace Baby
 {
@@ -45,15 +46,79 @@ namespace Baby
                     );
                 var babyInfo =
                     JsonConvert.DeserializeObject<BabyInfo>(response);
-                Baby = 
+                Baby =
                     Instantiate
                     (
                         Baby, new Vector3(0, 0, 0), Quaternion.identity
                     );
-                Transform canvasTransform = 
+                Transform canvasTransform =
                     GameObject.Find("GameCanvas").transform;
                 Baby.AddComponent<BabyObject>().Init(babyInfo, canvasTransform);
+                RenderBaby();
             }
+        }
+
+        private void RenderBaby()
+        {
+            BabyInfo babyInfo = Baby.GetComponent<BabyObject>().GetBaby();
+            var hairStyle = Baby.gameObject.transform.GetChild(0).gameObject;
+            var eyebrow = Baby.gameObject.transform.GetChild(1).gameObject;
+            var eye = Baby.gameObject.transform.GetChild(2).gameObject;
+            var nose = Baby.gameObject.transform.GetChild(3).gameObject;
+            var lip = Baby.gameObject.transform.GetChild(4).gameObject;
+            var ear = Baby.gameObject.transform.GetChild(5).gameObject;
+            var clothes = Baby.gameObject.transform.GetChild(6).gameObject;
+
+            var hairStyleSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/HairStyles/" 
+                    + babyInfo.Appearance["changeable"]["hairStyle"]
+                );
+            var eyebrowSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Eyebrows/" 
+                    + babyInfo.Appearance["unchangeable"]["eyebrow"]
+                );
+            var eyeSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Eyes/" 
+                    + babyInfo.Appearance["unchangeable"]["eye"]
+                );
+            var noseSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Noses/" 
+                    + babyInfo.Appearance["unchangeable"]["nose"]
+                );
+            var lipSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Lips/" 
+                    + babyInfo.Appearance["unchangeable"]["lip"]
+                );
+            var earSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Ears/" 
+                    + babyInfo.Appearance["unchangeable"]["ear"]
+                );
+            var clothesSprite = 
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Clothes/" 
+                    + babyInfo.Appearance["changeable"]["clothes"]
+                );
+
+            hairStyle.GetComponent<SpriteRenderer>().sprite = hairStyleSprite;
+            eyebrow.GetComponent<SpriteRenderer>().sprite = eyebrowSprite;
+            eye.GetComponent<SpriteRenderer>().sprite = eyeSprite;
+            nose.GetComponent<SpriteRenderer>().sprite = noseSprite;
+            lip.GetComponent<SpriteRenderer>().sprite = lipSprite;
+            ear.GetComponent<SpriteRenderer>().sprite = earSprite;
+            clothes.GetComponent<SpriteRenderer>().sprite = clothesSprite;
         }
     }
 }
