@@ -12,10 +12,87 @@ module.exports = {
         }
 
         const babyName = req.body.babyName;
-        const babyLevel = ;
-        const babyWeight = ;
-        const babyAppearance = ;
-        const babyTemperament = ;
+        const babyLevel = {
+            "speaking": 1,
+            "walking": 1,
+            "toilet": 1
+        }
+        const babyWeight =
+            (
+                Math.random() * config.weight[0].average + config.weight[0].min
+            )
+                .toFixed(2);
+        const babyAppearance = {
+            "changeable": {
+                "hairStyle":
+                    config.appearance.changeable.hairStyle
+                    [
+                    Math.floor(Math.random()
+                        * config.appearance.changeable.hairStyle.length + 0)
+                    ],
+                "clothes":
+                    config.appearance.changeable.clothes
+                    [
+                    Math.floor(Math.random()
+                        * config.appearance.changeable.clothes.length + 0)
+                    ],
+                "body": config.appearance.changeable.body[1]
+            },
+            "unchangeable": {
+                "hairColor":
+                    config.appearance.unchangeable.hairColor[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.hairColor.length + 0)
+                    ],
+                "eyebrow":
+                    config.appearance.unchangeable.eyebrow[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.eyebrow.length + 0)
+                    ],
+                "eye":
+                    config.appearance.unchangeable.eye[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.eye.length + 0)
+                    ],
+                "nose":
+                    config.appearance.unchangeable.nose[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.nose.length + 0)
+                    ],
+                "lip":
+                    config.appearance.unchangeable.lip[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.lip.length + 0)
+                    ],
+                "ear":
+                    config.appearance.unchangeable.ear[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.ear.length + 0)
+                    ],
+                "skin":
+                    config.appearance.unchangeable.skin[
+                    Math.floor(Math.random()
+                        * config.appearance.unchangeable.skin.length + 0)
+                    ],
+            }
+        };
+        babyAppearance.changeable.hairStyle = 
+            babyAppearance.unchangeable.hairColor 
+            + "_" 
+            + babyAppearance.changeable.hairStyle;
+        babyAppearance.changeable.clothes = 
+            babyAppearance.unchangeable.skin 
+            + "_" 
+            + babyAppearance.changeable.body
+            + "_"
+            + babyAppearance.changeable.clothes;
+        const babyTemperament = {
+            "activity": Math.random().toFixed(2),
+            "regularity": Math.random().toFixed(2),
+            "adaptability": Math.random().toFixed(2),
+            "intensity": Math.random().toFixed(2),
+            "attentionPersistence": Math.random().toFixed(2),
+        };
 
         Baby
             .create({

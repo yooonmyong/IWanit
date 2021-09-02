@@ -1,0 +1,30 @@
+{
+    "weight": [
+    ],
+    "appearance": {
+        "changeable": {
+            "hairStyle": [
+            ],
+            "clothes": [
+            ],
+            "body": [
+            ]
+        },
+        "unchangeable": {
+            "hairColor": [
+            ],
+            "eyebrow": [
+            ],
+            "eye": [
+            ],
+            "nose": [
+            ],
+            "lip": [
+            ],
+            "ear": [
+            ],
+            "skin": [
+            ]
+        }
+    }
+}
