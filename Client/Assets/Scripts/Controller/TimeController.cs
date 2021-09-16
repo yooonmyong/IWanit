@@ -55,7 +55,7 @@ namespace Controller
             }
 
             elapsedTime = time.CurrentTime;
-            elapsedDays = 364;
+            elapsedDays = time.ElapsedDays;
         }
 
         private void Update()
@@ -78,9 +78,7 @@ namespace Controller
                     if (elapsedDays == oneYear)
                     {
                         baby.GetComponent<BabyObject>().GetBaby().Age++;
-                        Debug.Log(baby.GetComponent<BabyObject>().GetBaby().Age + "살");
                         elapsedDays = 0;
-                        // 생일 이벤트 발생
                     }
                 }
                 catch (NullReferenceException exception)
@@ -91,7 +89,6 @@ namespace Controller
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            // 홈 버튼을 눌러서 게임을 잠깐 비활성화 했을 때 실행되는 함수
             isPaused = pauseStatus;
         }
 
