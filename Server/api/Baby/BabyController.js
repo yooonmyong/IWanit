@@ -139,5 +139,17 @@ module.exports = {
                 console.log(sequelizeError);
                 return res.status(500).send({ "message": sequelizeError });
             });
+    },
+    SaveBabyInfo: async (req, res) => {
+        await Baby
+            .update({
+                Age: req.body.age,
+                Level: req.body.level,
+                Weight: req.body.weight
+            }, {
+                where: {
+                    ID: req.user.ID
+                }
+            });
     }
 }
