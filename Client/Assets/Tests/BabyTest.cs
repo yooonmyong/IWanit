@@ -30,7 +30,7 @@ public class BabyTest
 
         babyInfo.ID = "aa";
         babyInfo.Name = "bb";
-        babyInfo.Months = 5;
+        babyInfo.Age = 5;
         babyInfo.Level = level;
         babyInfo.Weight = Convert.ToDecimal(4.52);
         babyInfo.Appearance = appearance;
@@ -38,8 +38,8 @@ public class BabyTest
 
         Assert.Throws<InvalidOperationException>(() => babyInfo.ID = "aaa");
         Assert.Throws<InvalidOperationException>(() => babyInfo.Name = "aaa");
-        babyInfo.Months++;
-        Assert.AreEqual(babyInfo.Months, 6);
+        babyInfo.Age++;
+        Assert.AreEqual(babyInfo.Age, 6);
         Assert.Throws<InvalidOperationException>(() => babyInfo.Level = level);
         Assert.Throws<FormatException>(() => babyInfo.UpdateLevel("aaa", 3));
         babyInfo.UpdateLevel("toilet", 2);

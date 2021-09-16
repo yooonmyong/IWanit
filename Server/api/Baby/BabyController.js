@@ -99,7 +99,7 @@ module.exports = {
                 ID: req.user.ID,
                 UUID: uuidv4(),
                 Name: babyName,
-                Months: 0,
+                Age: 0,
                 Level: babyLevel,
                 Weight: babyWeight,
                 Appearance: babyAppearance,
@@ -138,6 +138,18 @@ module.exports = {
             .catch((sequelizeError) => {
                 console.log(sequelizeError);
                 return res.status(500).send({ "message": sequelizeError });
+            });
+    },
+    SaveBabyInfo: async (req, res) => {
+        await Baby
+            .update({
+                Age: req.body.age,
+                Level: req.body.level,
+                Weight: req.body.weight
+            }, {
+                where: {
+                    ID: req.user.ID
+                }
             });
     }
 }

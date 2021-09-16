@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Module;
+using Controller;
 
 namespace Baby
 {
@@ -16,10 +17,26 @@ namespace Baby
     {
         public GameObject PuttingNamePanel;
         public GameObject Baby;
+        public Text babyName;
+        public Text date;
 
         public void Start()
         {
             StartCoroutine(LoadBabyInfoCoroutine());
+        }
+
+        public void Update()
+        {
+            try
+            {
+                date.text = 
+                    "D+" + GameObject
+                    .Find("TimeController")
+                    .GetComponent<TimeController>().time.ElapsedDays;
+            }
+            catch (NullReferenceException exception)
+            {
+            }
         }
 
         public IEnumerator LoadBabyInfoCoroutine()
@@ -55,6 +72,7 @@ namespace Baby
                     GameObject.Find("GameCanvas").transform;
                 Baby.AddComponent<BabyObject>().Init(babyInfo, canvasTransform);
                 RenderBaby();
+                babyName.text = Baby.GetComponent<BabyObject>().GetBaby().Name;
             }
         }
 

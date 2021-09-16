@@ -77,7 +77,7 @@ namespace Baby
             }
         }
 
-        public uint Months
+        public uint Age
         {
             get; set;
         }

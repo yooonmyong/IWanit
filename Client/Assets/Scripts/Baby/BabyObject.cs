@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Module;
 
 namespace Baby
 {
@@ -19,6 +23,30 @@ namespace Baby
         public BabyInfo GetBaby()
         {
             return babyInfo;
+        }
+
+        private void OnApplicationQuit()
+        {
+            StartCoroutine(SaveBabyInfoCoroutine());
+        }
+
+        private IEnumerator SaveBabyInfoCoroutine()
+        {
+            var form = new WWWForm();
+            var URL = Config.developServer + "/Baby/SaveBabyInfo";
+            form.AddField("age", babyInfo.Age.ToString());
+            form.AddField
+            (
+                "level", 
+                JsonConvert.SerializeObject(babyInfo.Level, Formatting.Indented)
+            );
+            form.AddField("weight", babyInfo.Weight.ToString());
+            UnityWebRequest www = UnityWebRequest.Post(URL, form);
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log($"**{www.error}");
+            }            
         }
     }
 }
