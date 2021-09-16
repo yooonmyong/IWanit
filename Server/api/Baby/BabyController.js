@@ -99,7 +99,7 @@ module.exports = {
                 ID: req.user.ID,
                 UUID: uuidv4(),
                 Name: babyName,
-                Months: 0,
+                Age: 0,
                 Level: babyLevel,
                 Weight: babyWeight,
                 Appearance: babyAppearance,
