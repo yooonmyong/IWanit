@@ -8,7 +8,6 @@ namespace Model
 {
     public class Motive : RealmObject
     {
-        public readonly Decimal LACK;
         private const double FULL = 10.0f;
         public Random random = new Random();
 
@@ -39,6 +38,21 @@ namespace Model
         }
 
         public double Stress
+        {
+            get; set;
+        }
+
+        public double Hygiene
+        {
+            get; set;
+        }
+
+        public double Urine
+        {
+            get; set;
+        }
+
+        public double LackMotive
         {
             get; set;
         }

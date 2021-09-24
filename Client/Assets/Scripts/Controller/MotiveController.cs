@@ -15,6 +15,8 @@ namespace Controller
         private MotiveValue motiveValue;
         private GameObject baby;
         private System.Random random = new System.Random();
+        private int termOfUpdateMotive = 0;
+
         private void OnEnable()
         {
             var config = new RealmConfiguration(Config.dbPath)
@@ -27,6 +29,36 @@ namespace Controller
         private void Start()
         {
             StartCoroutine(SetController());
+        }
+
+        private void Update()
+        {
+            termOfUpdateMotive++;
+            if (termOfUpdateMotive == Constants.TermOfAutomaticalUpdate)
+            {
+                termOfUpdateMotive = 0;
+                if (motiveValue.DoesMotiveLack())
+                {
+                    Debug.Log
+                    (
+                        "Some motive lacks!" + (double)motiveValue.Stress
+                    );
+                    try
+                    {
+                        motiveValue.Stress += 
+                            (PositiveDouble)
+                            motiveValue.motive.random.NextDouble() 
+                            * Constants.HandlingDigit;
+                    }
+                    catch (ArgumentException exception)
+                    {
+                    }
+                }
+                else
+                {
+                    motiveValue.UpdateMotiveRandomly();
+                }
+            }
         }
 
         private IEnumerator SetController()
