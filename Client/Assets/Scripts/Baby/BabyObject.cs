@@ -38,7 +38,7 @@ namespace Baby
             form.AddField
             (
                 "level", 
-                JsonConvert.SerializeObject(babyInfo.Level, Formatting.Indented)
+                Converter<int>.ConvertDictionaryToJson(babyInfo.Level)
             );
             form.AddField("weight", babyInfo.Weight.ToString());
             UnityWebRequest www = UnityWebRequest.Post(URL, form);
