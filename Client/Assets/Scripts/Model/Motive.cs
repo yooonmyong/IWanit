@@ -8,7 +8,6 @@ namespace Model
 {
     public class Motive : RealmObject
     {
-        private const double FULL = 10.0f;
         public Random random = new Random();
 
         [PrimaryKey]
