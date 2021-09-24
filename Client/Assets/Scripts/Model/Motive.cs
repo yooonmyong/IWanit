@@ -8,8 +8,7 @@ namespace Model
 {
     public class Motive : RealmObject
     {
-        public readonly Decimal LACK;
-        private const double FULL = 10.0f;
+        public Random random = new Random();
 
         [PrimaryKey]
         public Guid ID
@@ -42,18 +41,52 @@ namespace Model
             get; set;
         }
 
+        public double Hygiene
+        {
+            get; set;
+        }
+
+        public double Urine
+        {
+            get; set;
+        }
+
+        public double LackMotive
+        {
+            get; set;
+        }
+
         public Motive()
         {
         }
 
-        public Motive(Guid id, Decimal intensity)
+        public Motive(Guid id, double LackMotive)
         {
             this.ID = id;
-            this.Fun = FULL;
-            this.Energy = FULL;
-            this.Hunger = FULL;
-            this.Social = FULL;
-            this.Stress = FULL;
+            this.LackMotive = LackMotive;
+            this.Fun =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+            this.Energy =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+            this.Hunger =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+            this.Social =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+            this.Stress =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+            this.Hygiene =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+            this.Urine =
+                LackMotive
+                + (Constants.FullMotive - LackMotive) * random.NextDouble();
+        }
+    }
 
     public class MotiveValue
     {

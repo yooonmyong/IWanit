@@ -14,9 +14,6 @@ namespace Controller
         private Realm realm;
         public Model.Time time;
         private GameObject baby;
-        private const int oneDay = 86400;
-        private const int oneYear = 365;
-        private const int speedOfElapsedTime = 5000;
         private int elapsedDays;
         private float elapsedTime;
         private bool isPaused;
@@ -62,8 +59,9 @@ namespace Controller
         {
             if (!isPaused)
             {
-                elapsedTime += UnityEngine.Time.deltaTime * speedOfElapsedTime;
-                if (Math.Round((Decimal)elapsedTime) >= oneDay)
+                elapsedTime += 
+                    UnityEngine.Time.deltaTime * Constants.SpeedOfElapsedTime;
+                if (Math.Round((Decimal)elapsedTime) >= Constants.OneDay)
                 {
                     elapsedDays++;
                     realm.Write(() =>
@@ -75,7 +73,7 @@ namespace Controller
 
                 try
                 {
-                    if (elapsedDays == oneYear)
+                    if (elapsedDays == Constants.OneYear)
                     {
                         baby.GetComponent<BabyObject>().GetBaby().Age++;
                         elapsedDays = 0;
