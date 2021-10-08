@@ -890,6 +890,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanvasUI: {fileID: 1642025633}
   PopUpUI: {fileID: 569483520}
+  WidthRatio: 1
+  HeightRatio: 1
 --- !u!1 &681782977
 GameObject:
   m_ObjectHideFlags: 0

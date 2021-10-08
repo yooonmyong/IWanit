@@ -1543,7 +1543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 179fcffa535f15546a0c6ed89222e875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
 --- !u!1 &1376225264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,6 +1597,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanvasUI: {fileID: 382492765}
   PopUpUI: {fileID: 1376225268}
+  WidthRatio: 1
+  HeightRatio: 1
 --- !u!114 &1376225267
 MonoBehaviour:
   m_ObjectHideFlags: 0
