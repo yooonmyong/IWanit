@@ -1,40 +1,32 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
+using Parenting;
 
-public class SteeringWheel : MonoBehaviour
+namespace UI
 {
-    public RectTransform[] parentings = new RectTransform[7];
-    private Vector3 previousPosition = Vector3.zero;
-    private Vector3 positionDelta = Vector3.zero;
-    private Vector3 clickUpPosition = Vector3.zero;
-    private float rotatingSpeed = 1.0f;
-
-    private void Update()
+    public class SteeringWheel : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            previousPosition = Input.mousePosition;
-        }
+        public GameObject SubMenu;        
+        private Vector3 previousPosition = Vector3.zero;
+        private float rotatingSpeed = 1.0f;
 
-        if (Input.GetMouseButtonUp(0))
+        private void Update()
         {
-            clickUpPosition = Input.mousePosition;
-            if (clickUpPosition.x == previousPosition.x
-                && clickUpPosition.y == previousPosition.y)
+            if (SubMenu.activeSelf)
             {
-                string parenting = 
-                    GetSelectedParenting
-                    (
-                        Camera.main.ScreenToWorldPoint(clickUpPosition)
-                    ).gameObject.name;
-                
-                Debug.Log("You choose " + parenting);
+                this.gameObject.GetComponent<Collider2D>().enabled = false;
+            }
+            else
+            {
+                this.gameObject.GetComponent<Collider2D>().enabled = true;
             }
         }
 
-        if (Input.GetMouseButton(0))
+        private void OnMouseDrag()
         {
-            positionDelta = Input.mousePosition - previousPosition;
+            Vector3 positionDelta = Input.mousePosition - previousPosition;
+
             transform.Rotate
             (
                 transform.forward,
@@ -43,25 +35,5 @@ public class SteeringWheel : MonoBehaviour
                 Space.World
             );
         }
-    }
-
-    private Transform GetSelectedParenting(Vector3 clickPosition)
-    {
-        float minDistance = Mathf.Infinity;
-        RectTransform selectedParenting = null;
-
-        foreach (RectTransform parenting in parentings)
-        {
-            float distance =
-                Vector3.Distance(parenting.transform.position, clickPosition);
-
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                selectedParenting = parenting;
-            }
-        }
-
-        return selectedParenting;
     }
 }
