@@ -7,6 +7,7 @@ namespace Module
     {
         public Canvas CanvasUI;
         public Image PopUpUI;
+        public float WidthRatio, HeightRatio;
 
         private void Awake()
         {
@@ -14,7 +15,11 @@ namespace Module
             RectTransform popupRect = PopUpUI.GetComponent<RectTransform>();
 
             popupRect.sizeDelta = 
-                new Vector2( canvasRect.rect.width, canvasRect.rect.height );
+                new Vector2
+                ( 
+                    (float)canvasRect.rect.width / WidthRatio, 
+                    (float)canvasRect.rect.height / HeightRatio 
+                );
         }
     }
 }
