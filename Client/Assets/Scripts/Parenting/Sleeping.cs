@@ -1,23 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Parenting
 {
     public class Sleeping : MonoBehaviour
     {
-        public GameObject SubMenu;
-
         private void Update()
         {
-            if (SubMenu.activeSelf)
-            {
-                this.gameObject.GetComponent<Collider2D>().enabled = false;
-            }
-            else
-            {
-                this.gameObject.GetComponent<Collider2D>().enabled = true;
-            }
+            var popupList = new List<GameObject>();
+            
+            popupList = 
+                new List<GameObject>
+                (
+                    GameObject.FindGameObjectsWithTag("Popup")
+                );
+            this.gameObject.GetComponent<Collider2D>().enabled = 
+                (popupList.Any()) ? false : true;
         }
 
         private void OnMouseUpAsButton()

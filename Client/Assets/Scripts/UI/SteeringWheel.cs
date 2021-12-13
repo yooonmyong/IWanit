@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Parenting;
 
@@ -7,20 +9,20 @@ namespace UI
 {
     public class SteeringWheel : MonoBehaviour
     {
-        public GameObject SubMenu;        
         private Vector3 previousPosition = Vector3.zero;
         private float rotatingSpeed = 1.0f;
 
         private void Update()
         {
-            if (SubMenu.activeSelf)
-            {
-                this.gameObject.GetComponent<Collider2D>().enabled = false;
-            }
-            else
-            {
-                this.gameObject.GetComponent<Collider2D>().enabled = true;
-            }
+            var popupList = new List<GameObject>();
+            
+            popupList = 
+                new List<GameObject>
+                (
+                    GameObject.FindGameObjectsWithTag("Popup")
+                );
+            this.gameObject.GetComponent<Collider2D>().enabled = 
+                (popupList.Any()) ? false : true;
         }
 
         private void OnMouseDrag()
