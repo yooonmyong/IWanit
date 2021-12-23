@@ -1,28 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Parenting
 {
     public class Outing : MonoBehaviour
     {
+        private void Awake()
+        {
+        }
+        
         private void Update()
         {
-            var popupList = new List<GameObject>();
-            
-            popupList = 
-                new List<GameObject>
-                (
-                    GameObject.FindGameObjectsWithTag("Popup")
-                );
-            this.gameObject.GetComponent<Collider2D>().enabled = 
-                (popupList.Any()) ? false : true;
         }
 
         private void OnMouseUpAsButton()
         {
-            Debug.Log("outing is clicked");   
+            Debug.Log("outing is clicked");
         }
     }
 }

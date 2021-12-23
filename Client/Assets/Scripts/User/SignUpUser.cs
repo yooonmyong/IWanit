@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Module;
+using UI;
 
 namespace User
 {
@@ -18,8 +19,8 @@ namespace User
         public InputField userEmailField;
         public InputField userPWDField;
         public InputField repeatedUserPWDField;
-        public GameObject ErrorPopUpUI;
-        public Text ErrorMessageUI;
+        public Toast toast;
+        public Text tostMessage;
 
         public void SignUp()
         {
@@ -48,8 +49,8 @@ namespace User
                 var errorMessage = (string)error["message"];
                 var errorcase = new Errorcase();
 
-                ErrorMessageUI.text = errorcase.GetErrorcase(errorMessage);
-                ErrorPopUpUI.SetActive(true);                
+                tostMessage.text = errorcase.GetErrorcase(errorMessage);
+                toast.Appear();
             }
             else
             {

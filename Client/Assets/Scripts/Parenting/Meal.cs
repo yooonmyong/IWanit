@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UI;
 
@@ -8,25 +7,22 @@ namespace Parenting
 {
     public class Meal : MonoBehaviour
     {
-        public GameObject SubMenu;
+        public PopUpManager popUpManager;
+        public PopUp mealPopup;
 
-        private void Update()
+        private void Awake()
         {
-            var popupList = new List<GameObject>();
-            
-            popupList = 
-                new List<GameObject>
-                (
-                    GameObject.FindGameObjectsWithTag("Popup")
-                );
-            this.gameObject.GetComponent<Collider2D>().enabled = 
-                (popupList.Any()) ? false : true;
         }
         
+        private void Update()
+        {
+        }
+
         private void OnMouseUpAsButton()
         {
             Debug.Log("meal is clicked");
-            SubMenu.GetComponent<PopUp>().OpenPopUp();
+            popUpManager.ColliderClickAction(mealPopup);
+            Time.timeScale = 0f;            
         }
     }
 }

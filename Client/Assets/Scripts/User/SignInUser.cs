@@ -7,14 +7,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using Module;
+using UI;
 
 namespace User
 {
     public class SignInUser : MonoBehaviour
     {
-        public GameObject ErrorPopUpUI;
         public InputField userIDField;
         public InputField userPWDField;
+        public Toast toastPopup;
 
         public void SignIn()
         {
@@ -42,7 +43,7 @@ namespace User
             {
                 case 422:
                     Debug.Log("Trying to access using invalid userID");
-                    ErrorPopUpUI.SetActive(true);
+                    toastPopup.Appear();
                     break;
                 case 500:
                     Debug.Log("Server or database error occured");
