@@ -14,9 +14,9 @@ namespace User
 {
     public class SignUpUser : MonoBehaviour
     {
-        public InputField UserIDField;
-        public InputField UserEmailField;
-        public InputField UserPWDField;
+        public InputField userIDField;
+        public InputField userEmailField;
+        public InputField userPWDField;
         public InputField repeatedUserPWDField;
         public GameObject ErrorPopUpUI;
         public Text ErrorMessageUI;
@@ -30,9 +30,9 @@ namespace User
         {
             var form = new WWWForm();
             var URL = Config.developServer + "/User/SignUp";
-            form.AddField("userID", UserIDField.text);
-            form.AddField("userEmail", UserEmailField.text);
-            form.AddField("userPWD", UserPWDField.text);
+            form.AddField("userID", userIDField.text);
+            form.AddField("userEmail", userEmailField.text);
+            form.AddField("userPWD", userPWDField.text);
             form.AddField("repeatedUserPWD", repeatedUserPWDField.text);
             UnityWebRequest www = UnityWebRequest.Post(URL, form);
             yield return www.SendWebRequest();

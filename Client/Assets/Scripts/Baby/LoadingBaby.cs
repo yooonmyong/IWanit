@@ -16,8 +16,8 @@ namespace Baby
     public class LoadingBaby : MonoBehaviour
     {
         public GameObject PuttingNamePanel;
-        public GameObject Baby;
         public Text babyName;
+        public GameObject baby;
         public Text date;
 
         public void Start()
@@ -63,10 +63,10 @@ namespace Baby
                     );
                 var babyInfo =
                     JsonConvert.DeserializeObject<BabyInfo>(response);
-                Baby =
+                baby =
                     Instantiate
                     (
-                        Baby, new Vector3(0, 0, 0), Quaternion.identity
+                        baby, new Vector3(0, 0, 0), Quaternion.identity
                     );
                 Transform canvasTransform =
                     GameObject.Find("GameCanvas").transform;
@@ -78,14 +78,14 @@ namespace Baby
 
         private void RenderBaby()
         {
-            BabyInfo babyInfo = Baby.GetComponent<BabyObject>().GetBaby();
-            var hairStyle = Baby.gameObject.transform.GetChild(0).gameObject;
-            var eyebrow = Baby.gameObject.transform.GetChild(1).gameObject;
-            var eye = Baby.gameObject.transform.GetChild(2).gameObject;
-            var nose = Baby.gameObject.transform.GetChild(3).gameObject;
-            var lip = Baby.gameObject.transform.GetChild(4).gameObject;
-            var ear = Baby.gameObject.transform.GetChild(5).gameObject;
-            var clothes = Baby.gameObject.transform.GetChild(6).gameObject;
+            BabyInfo babyInfo = baby.GetComponent<BabyObject>().GetBaby();
+            var hairStyle = baby.gameObject.transform.GetChild(0).gameObject;
+            var eyebrow = baby.gameObject.transform.GetChild(1).gameObject;
+            var eye = baby.gameObject.transform.GetChild(2).gameObject;
+            var nose = baby.gameObject.transform.GetChild(3).gameObject;
+            var lip = baby.gameObject.transform.GetChild(4).gameObject;
+            var ear = baby.gameObject.transform.GetChild(5).gameObject;
+            var clothes = baby.gameObject.transform.GetChild(6).gameObject;
 
             var hairStyleSprite = 
                 Resources.Load<Sprite>

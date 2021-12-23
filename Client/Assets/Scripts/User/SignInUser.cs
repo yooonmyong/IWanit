@@ -12,9 +12,9 @@ namespace User
 {
     public class SignInUser : MonoBehaviour
     {
-        public InputField UserIDField;
-        public InputField UserPWDField;
         public GameObject ErrorPopUpUI;
+        public InputField userIDField;
+        public InputField userPWDField;
 
         public void SignIn()
         {
@@ -25,8 +25,8 @@ namespace User
         {
             var form = new WWWForm();
             var URL = Config.developServer + "/User/SignIn";
-            form.AddField("userID", UserIDField.text);
-            form.AddField("userPWD", UserPWDField.text);
+            form.AddField("userID", userIDField.text);
+            form.AddField("userPWD", userPWDField.text);
             UnityWebRequest www = UnityWebRequest.Post(URL, form);
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
