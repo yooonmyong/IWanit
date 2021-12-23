@@ -10,15 +10,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Module;
 using Controller;
+using UI;
 
 namespace Baby
 {
     public class LoadingBaby : MonoBehaviour
     {
-        public GameObject PuttingNamePanel;
-        public Text babyName;
         public GameObject baby;
         public Text date;
+        public TimeController timeController;
+        public SettingName settingName;
 
         public void Start()
         {
@@ -29,10 +30,7 @@ namespace Baby
         {
             try
             {
-                date.text = 
-                    "D+" + GameObject
-                    .Find("TimeController")
-                    .GetComponent<TimeController>().time.ElapsedDays;
+                date.text = "D+" + timeController.time.ElapsedDays;
             }
             catch (NullReferenceException exception)
             {
@@ -52,7 +50,7 @@ namespace Baby
             if (www.responseCode == 404)
             {
                 Debug.Log("Failed to load baby info");
-                PuttingNamePanel.SetActive(true);
+                settingName.OpenPopup();
             }
             else
             {
@@ -68,11 +66,8 @@ namespace Baby
                     (
                         baby, new Vector3(0, 0, 0), Quaternion.identity
                     );
-                Transform canvasTransform =
-                    GameObject.Find("GameCanvas").transform;
-                Baby.AddComponent<BabyObject>().Init(babyInfo, canvasTransform);
+                baby.AddComponent<BabyObject>().Init(babyInfo);
                 RenderBaby();
-                babyName.text = Baby.GetComponent<BabyObject>().GetBaby().Name;
             }
         }
 
