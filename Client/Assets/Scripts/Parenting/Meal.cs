@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UI;
+using Controller;
 
 namespace Parenting
 {
@@ -9,6 +10,7 @@ namespace Parenting
     {
         public PopUpManager popUpManager;
         public PopUp mealPopup;
+        public MotiveController motiveController;
 
         private void Awake()
         {
@@ -23,6 +25,16 @@ namespace Parenting
             Debug.Log("meal is clicked");
             popUpManager.ColliderClickAction(mealPopup);
             Time.timeScale = 0f;            
+
+        public void CheckAvailable(FoodObject foodObject)
+        {
+            if (motiveController.DoesHungerLack())
+            {
+            }
+            else
+            {
+                Debug.Log("Your baby didn't wanna have a meal");
+            }
         }
     }
 }
