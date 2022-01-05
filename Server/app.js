@@ -18,6 +18,7 @@ app.use(passport.session());
 
 app.use('/User', require('./api/User/app'));
 app.use('/Baby', require('./api/Baby/app'));
+app.use('/Parenting', require('./api/Parenting/app'));
 
 app.get('/Main', (req, res) => {
     return res.sendStatus(200);
