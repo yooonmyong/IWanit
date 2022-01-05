@@ -62,6 +62,91 @@ namespace Controller
         }
 
         private IEnumerator SetController()
+
+        public bool DoesEnergyLack()
+        {
+            if (motiveValue.Energy <= motiveValue.motive.LackMotive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DoesFunLack()
+        {
+            if (motiveValue.Fun <= motiveValue.motive.LackMotive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DoesHungerLack()
+        {
+            if (motiveValue.Hunger <= motiveValue.motive.LackMotive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DoesHygieneLack()
+        {
+            if (motiveValue.Hygiene <= motiveValue.motive.LackMotive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }        
+
+        public bool DoesSocialLack()
+        {
+            if (motiveValue.Social <= motiveValue.motive.LackMotive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DoesStressFull()
+        {
+            if (motiveValue.Stress <= Constants.FullMotive)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool DoesUrineLack()
+        {
+            if (motiveValue.Urine <= motiveValue.motive.LackMotive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         {
             yield return new WaitUntil
             (
