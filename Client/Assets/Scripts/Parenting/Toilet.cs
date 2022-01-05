@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UI;
+using Baby;
+using Module;
 
 namespace Parenting
 {
@@ -12,6 +14,7 @@ namespace Parenting
         private bool isAvailable;
         private float timer;
         private float fullTime;
+        private uint babyMonths;
 
         private void Start()
         {
@@ -50,6 +53,26 @@ namespace Parenting
                 Pee();
             }
         }
+
+        private void Pee()
+        {
+            if (babyMonths == Constants.MonthsofPottyTraining)
+            {
+            }
+            else
+            {
+            }
+        }
+
+        private IEnumerator SetMonthsCoroutine()
+        {
+            yield return new WaitUntil
+            (
+                () => GameObject.Find("Baby(Clone)") != null
+            );
+            var baby = 
+                GameObject.Find("Baby(Clone)").GetComponent<BabyObject>();
+            babyMonths = baby.GetBaby().Months;
         }
     }
 }
