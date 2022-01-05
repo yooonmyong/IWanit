@@ -1,6 +1,4 @@
 const Baby = require('../../models')['baby'];
-const BabyTaste = require('../../models')['baby_taste'];
-const BabyLanguage = require('../../models')['baby_language'];
 const BabyService = require('../../services/BabyService');
 const config = require('../../config/settingBaby.json');
 const { v4: uuidv4 } = require('uuid');
@@ -143,8 +141,8 @@ module.exports = {
     SaveBabyInfo: async (req, res) => {
         await Baby
             .update({
-                Level: req.body.level,
                 Months: req.body.months,
+                Level: JSON.parse(req.body.level),
                 Weight: req.body.weight
             }, {
                 where: {

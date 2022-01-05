@@ -19,7 +19,8 @@ namespace Baby
         public GameObject baby;
         public Text date;
         public TimeController timeController;
-        public SettingName settingName;
+        public SettingNamePopup settingNamePopup;
+        private BabyInfo babyInfo;
 
         public void Start()
         {
@@ -50,7 +51,7 @@ namespace Baby
             if (www.responseCode == 404)
             {
                 Debug.Log("Failed to load baby info");
-                settingName.OpenPopup();
+                settingNamePopup.OpenPopUp();
             }
             else
             {
@@ -59,7 +60,7 @@ namespace Baby
                     (
                         www.downloadHandler.data
                     );
-                var babyInfo =
+                babyInfo =
                     JsonConvert.DeserializeObject<BabyInfo>(response);
                 baby =
                     Instantiate
@@ -73,7 +74,6 @@ namespace Baby
 
         private void RenderBaby()
         {
-            BabyInfo babyInfo = baby.GetComponent<BabyObject>().GetBaby();
             var hairStyle = baby.gameObject.transform.GetChild(0).gameObject;
             var eyebrow = baby.gameObject.transform.GetChild(1).gameObject;
             var eye = baby.gameObject.transform.GetChild(2).gameObject;
