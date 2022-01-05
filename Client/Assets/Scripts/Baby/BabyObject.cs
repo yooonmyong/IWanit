@@ -32,7 +32,7 @@ namespace Baby
         {
             var form = new WWWForm();
             var URL = Config.developServer + "/Baby/SaveBabyInfo";
-            form.AddField("age", babyInfo.Age.ToString());
+            form.AddField("months", babyInfo.Months.ToString());
             form.AddField
             (
                 "level", 
