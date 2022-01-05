@@ -30,10 +30,10 @@ namespace Controller
 
         private void Start()
         {
-            StartCoroutine(SetController());
+            StartCoroutine(SetControllerCoroutine());
         }
 
-        private IEnumerator SetController()
+        private IEnumerator SetControllerCoroutine()
         {
             yield return new WaitUntil
             (

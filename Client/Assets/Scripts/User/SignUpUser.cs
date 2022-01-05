@@ -19,7 +19,7 @@ namespace User
         public InputField userEmailField;
         public InputField userPWDField;
         public InputField repeatedUserPWDField;
-        public Toast toast;
+        public Toast toastPopup;
         public Text tostMessage;
 
         public void SignUp()
@@ -50,7 +50,7 @@ namespace User
                 var errorcase = new Errorcase();
 
                 tostMessage.text = errorcase.GetErrorcase(errorMessage);
-                toast.Appear();
+                toastPopup.Appear();
             }
             else
             {

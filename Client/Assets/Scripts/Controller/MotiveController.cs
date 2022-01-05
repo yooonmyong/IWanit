@@ -14,7 +14,6 @@ namespace Controller
         private Realm realm;
         private MotiveValue motiveValue;
         private GameObject baby;
-        private System.Random random = new System.Random();
         private int termOfUpdateMotive = 0;
 
         private void OnEnable()
@@ -28,7 +27,7 @@ namespace Controller
 
         private void Start()
         {
-            StartCoroutine(SetController());
+            StartCoroutine(SetControllerCoroutine());
         }
 
         private void Update()
@@ -61,7 +60,24 @@ namespace Controller
             }
         }
 
-        private IEnumerator SetController()
+        private void OnApplicationQuit()
+        {
+            realm.Write(() =>
+            {
+                motiveValue.motive.Fun = motiveValue.Fun;
+                motiveValue.motive.Energy = motiveValue.Energy;
+                motiveValue.motive.Hunger = motiveValue.Hunger;
+                motiveValue.motive.Social = motiveValue.Social;
+                motiveValue.motive.Stress = motiveValue.Stress;
+                motiveValue.motive.Hygiene = motiveValue.Hygiene;
+                motiveValue.motive.Urine = motiveValue.Urine;
+            });
+        }
+
+        private void OnDisable()
+        {
+            realm.Dispose();
+        }
 
         public bool DoesEnergyLack()
         {
@@ -147,6 +163,7 @@ namespace Controller
             }
         }
 
+        private IEnumerator SetControllerCoroutine()
         {
             yield return new WaitUntil
             (
@@ -172,26 +189,6 @@ namespace Controller
             }
 
             motiveValue = new MotiveValue(motive);
-            motiveValue.Energy = (PositiveDouble)5;
-        }
-
-        private void OnApplicationQuit()
-        {
-            realm.Write(() =>
-            {
-                motiveValue.motive.Fun = motiveValue.Fun;
-                motiveValue.motive.Energy = motiveValue.Energy;
-                motiveValue.motive.Hunger = motiveValue.Hunger;
-                motiveValue.motive.Social = motiveValue.Social;
-                motiveValue.motive.Stress = motiveValue.Stress;
-                motiveValue.motive.Hygiene = motiveValue.Hygiene;
-                motiveValue.motive.Urine = motiveValue.Urine;
-            });
-        }
-
-        private void OnDisable()
-        {
-            realm.Dispose();
-        }
+        }        
     }
 }
