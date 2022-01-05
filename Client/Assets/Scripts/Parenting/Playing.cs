@@ -8,8 +8,7 @@ namespace Parenting
 {
     public class Playing : MonoBehaviour
     {
-        public PopUpManager popUpManager;
-        public PopUp playingPopup;
+        public PlayingPopup playingPopup;
         public MotiveController motiveController;
 
         private void Awake()
@@ -23,8 +22,8 @@ namespace Parenting
         private void OnMouseUpAsButton()
         {
             Debug.Log("playing is clicked");
-            popUpManager.ColliderClickAction(playingPopup);
-            Time.timeScale = 0f;            
+            playingPopup.OpenPopUp();
+        }
 
         public void CheckAvailable(PlayingObject playingObject)
         {
