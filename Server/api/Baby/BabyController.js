@@ -99,7 +99,7 @@ module.exports = {
                 ID: req.user.ID,
                 UUID: uuidv4(),
                 Name: babyName,
-                Age: 0,
+                Months: 6,
                 Level: babyLevel,
                 Weight: babyWeight,
                 Appearance: babyAppearance,
@@ -143,8 +143,8 @@ module.exports = {
     SaveBabyInfo: async (req, res) => {
         await Baby
             .update({
-                Age: req.body.age,
                 Level: req.body.level,
+                Months: req.body.months,
                 Weight: req.body.weight
             }, {
                 where: {

@@ -73,9 +73,9 @@ namespace Controller
 
                 try
                 {
-                    if (elapsedDays == Constants.OneYear)
+                    if (elapsedDays == Constants.OneMonths)
                     {
-                        baby.GetComponent<BabyObject>().GetBaby().Age++;
+                        baby.GetComponent<BabyObject>().GetBaby().Months++;
                         elapsedDays = 0;
                     }
                 }

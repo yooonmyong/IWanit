@@ -4,7 +4,7 @@ namespace Module
     public static class Constants
     {
         public const double FullMotive = 10.0f;
-        public const int OneYear = 365;
+        public const int OneMonths = 30;
         public const int OneDay = 86400;
         public const int SpeedOfElapsedTime = 5000;
 

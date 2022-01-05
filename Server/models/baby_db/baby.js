@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: false
     },
-    Age: {
+    Months: {
       type: DataTypes.SMALLINT.UNSIGNED,
       allowNull: false
     },
