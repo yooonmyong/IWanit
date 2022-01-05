@@ -5,12 +5,16 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    Description: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
     Calorie: {
       type: DataTypes.DOUBLE,
+      allowNull: false
+    },
+    KoreanName: {
+      type: DataTypes.STRING(100),
+      allowNull: false
+    },    
+    ProperMonths: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     }
   }, {
