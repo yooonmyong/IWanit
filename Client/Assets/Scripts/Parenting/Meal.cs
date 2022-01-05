@@ -8,8 +8,7 @@ namespace Parenting
 {
     public class Meal : MonoBehaviour
     {
-        public PopUpManager popUpManager;
-        public PopUp mealPopup;
+        public MealPopup mealPopup;
         public MotiveController motiveController;
 
         private void Awake()
@@ -23,8 +22,8 @@ namespace Parenting
         private void OnMouseUpAsButton()
         {
             Debug.Log("meal is clicked");
-            popUpManager.ColliderClickAction(mealPopup);
-            Time.timeScale = 0f;            
+            mealPopup.OpenPopUp();
+        }
 
         public void CheckAvailable(FoodObject foodObject)
         {

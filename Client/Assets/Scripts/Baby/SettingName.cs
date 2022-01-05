@@ -15,14 +15,8 @@ namespace Baby
     {
         public InputField babyNameField;
         public Toast toastPopup;
-        public PopUpManager popUpManager;
-        public PopUp settingNamePopup;
+        public SettingNamePopup settingNamePopup;
         public LoadingBaby loadingBaby;
-
-        public void OpenPopup()
-        {
-            popUpManager.ColliderClickAction(settingNamePopup);
-        }
 
         public void SetName()
         {
@@ -51,7 +45,7 @@ namespace Baby
                 else 
                 {
                     Debug.Log("Success to send name data to server!");
-                    popUpManager.ClosePopUp(settingNamePopup);
+                    settingNamePopup.ClosePopUp();
                     StartCoroutine(loadingBaby.LoadBabyInfoCoroutine());
                 }
             }
