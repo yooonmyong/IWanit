@@ -12,9 +12,9 @@ namespace UI
     public class SteeringWheel : MonoBehaviour, IDragHandler
     {
         public GameObject Popups;
+        public bool isPopupActive = false;
         private float rotatingSpeed = 1.0f;
         private Collider2D[] colliders;
-        private bool isPopupActive = false;
 
         private void Start()
         {
@@ -34,6 +34,10 @@ namespace UI
                     isPopupActive = true;
                     break;                    
                 }
+                else
+                {
+                    isPopupActive = false;
+                }
             }
             foreach (var collider in colliders)
             {
@@ -41,7 +45,6 @@ namespace UI
             }
             this.gameObject.GetComponent<Graphic>().raycastTarget = 
                 !isPopupActive;
-            isPopupActive = false;
         }
 
         public void OnDrag(PointerEventData eventData)

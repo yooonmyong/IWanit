@@ -6,13 +6,15 @@ using Realms;
 using Model;
 using Module;
 using Baby;
+using UI;
 
 namespace Controller
 {
     public class TimeController : MonoBehaviour
     {
-        private Realm realm;
         public Model.Time time;
+        public SteeringWheel steeringWheel;
+        private Realm realm;
         private GameObject baby;
         private int elapsedDays;
         private float elapsedTime;
@@ -33,30 +35,9 @@ namespace Controller
             StartCoroutine(SetControllerCoroutine());
         }
 
-        private IEnumerator SetControllerCoroutine()
-        {
-            yield return new WaitUntil
-            (
-                () => GameObject.Find("Baby(Clone)") != null
-            );
-            baby = GameObject.Find("Baby(Clone)");
-            var id = Guid.Parse(baby.GetComponent<BabyObject>().GetBaby().UUID);
-            time = realm.Find<Model.Time>(id);
-            if (time == null)
-            {
-                Debug.Log("Create new time local database");
-                realm.Write(() =>
-                {
-                    time = realm.Add(new Model.Time(id));
-                });
-            }
-
-            elapsedTime = time.CurrentTime;
-            elapsedDays = time.ElapsedDays;
-        }
-
         private void Update()
         {
+            isPaused = steeringWheel.isPopupActive;
             if (!isPaused)
             {
                 elapsedTime += 
@@ -102,5 +83,27 @@ namespace Controller
         {
             realm.Dispose();
         }
+
+        private IEnumerator SetControllerCoroutine()
+        {
+            yield return new WaitUntil
+            (
+                () => GameObject.Find("Baby(Clone)") != null
+            );
+            baby = GameObject.Find("Baby(Clone)");
+            var id = Guid.Parse(baby.GetComponent<BabyObject>().GetBaby().UUID);
+            time = realm.Find<Model.Time>(id);
+            if (time == null)
+            {
+                Debug.Log("Create new time local database");
+                realm.Write(() =>
+                {
+                    time = realm.Add(new Model.Time(id));
+                });
+            }
+
+            elapsedTime = time.CurrentTime;
+            elapsedDays = time.ElapsedDays;
+        }        
     }
 }
