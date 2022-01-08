@@ -2192,7 +2192,7 @@ MonoBehaviour:
   userEmailField: {fileID: 2047407338}
   userPWDField: {fileID: 1623786731}
   repeatedUserPWDField: {fileID: 599512643}
-  toast: {fileID: 1376225266}
+  toastPopup: {fileID: 1376225266}
   tostMessage: {fileID: 323243521}
 --- !u!1 &1773698914
 GameObject:
