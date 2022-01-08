@@ -10,12 +10,18 @@ namespace Module
 
         public PositiveDouble(double value)
         {
-            if (value < 0 || value > Constants.FullMotive)
+            if (value < 0)
             {
-                throw new ArgumentException("Value is out of range.");
+                this.value = 0;
             }
-
-            this.value = value;
+            else if (value > Constants.FullMotive)
+            {
+                this.value = Constants.FullMotive;
+            }
+            else
+            {
+                this.value = value;
+            }
         }
 
         public static implicit operator double(PositiveDouble positiveDouble)
@@ -25,11 +31,18 @@ namespace Module
 
         public static explicit operator PositiveDouble(double value)
         {
-            if (value < 0 || value > Constants.FullMotive)
+            if (value < 0)
             {
-                throw new ArgumentOutOfRangeException("Value is out of range.");
+                return new PositiveDouble(0);
             }
-            return new PositiveDouble(value);
+            else if (value > Constants.FullMotive)
+            {
+                return new PositiveDouble(Constants.FullMotive);
+            }
+            else
+            {
+                return new PositiveDouble(value);
+            }
         }
 
         public static PositiveDouble operator +
