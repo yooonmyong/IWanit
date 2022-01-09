@@ -12,6 +12,9 @@ namespace Module
         public const double IncreaseOrDecreasePoint = 0.5;
         public const double HandlingDigit = 0.01;
 
+        public const int MinStandardtoRememberWord = 3;
+        public const int MaxStandardtoRememberWord = 50;
+
         public const int MonthsofPottyTraining = 20;
         
         public const float StartingValueinRow = 0f;
