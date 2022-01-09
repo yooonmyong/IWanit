@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Controller;
+using Module;
 using UI;
 
 namespace Parenting
@@ -18,6 +19,7 @@ namespace Parenting
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 Talk(speechField.text);
+                speechField.Clear();
             }
         }
 
