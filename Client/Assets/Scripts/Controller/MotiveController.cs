@@ -14,7 +14,9 @@ namespace Controller
         private Realm realm;
         private MotiveValue motiveValue;
         private GameObject baby;
+        private int standardofAutomaticalUpdate = 0;
         private int termOfUpdateMotive = 0;
+        private bool isTantrum = false;
 
         private void OnEnable()
         {
@@ -22,6 +24,7 @@ namespace Controller
             {
                 SchemaVersion = 1
             };
+            
             realm = Realm.GetInstance(config);
         }
 
@@ -32,32 +35,7 @@ namespace Controller
 
         private void Update()
         {
-            termOfUpdateMotive++;
-            if (termOfUpdateMotive == Constants.TermOfAutomaticalUpdate)
-            {
-                termOfUpdateMotive = 0;
-                if (motiveValue.DoesMotiveLack())
-                {
-                    Debug.Log
-                    (
-                        "Some motive lacks!" + (double)motiveValue.Stress
-                    );
-                    try
-                    {
-                        motiveValue.Stress += 
-                            (PositiveDouble)
-                            motiveValue.motive.random.NextDouble() 
-                            * Constants.HandlingDigit;
-                    }
-                    catch (ArgumentException exception)
-                    {
-                    }
-                }
-                else
-                {
-                    motiveValue.UpdateMotiveRandomly();
-                }
-            }
+            StartCoroutine(UpdateMotiveCoroutine());
         }
 
         private void OnApplicationQuit()
@@ -175,20 +153,57 @@ namespace Controller
             if (motive == null)
             {
                 Debug.Log("Create new motive local database");
-                double value =
+                double intensity =
                     Decimal.ToDouble(baby
                         .GetComponent<BabyObject>()
                         .GetBaby()
-                        .Temperament["intensity"])
-                    * DateTime.Now.Millisecond;
-                double motiveLackPoint = value % (Constants.FullMotive / 2);
+                        .Temperament["intensity"]);
+                double motiveLackPoint = 
+                    (intensity * Constants.FullMotive) % 
+                    (Constants.FullMotive / 2);
                 realm.Write(() =>
                 {
-                    motive = realm.Add(new Motive(id, motiveLackPoint));
+                    motive = realm.Add(new Motive(id, ++motiveLackPoint));
                 });
             }
 
             motiveValue = new MotiveValue(motive);
-        }        
+        }
+
+        private IEnumerator UpdateMotiveCoroutine()
+        {
+            yield return new WaitUntil
+            (
+                () => motiveValue != null
+            );
+            if (DoesStressFull())
+            {
+                isTantrum = true;
+            }
+
+            if (termOfUpdateMotive == standardofAutomaticalUpdate)
+            {
+                if (motiveValue.DoesMotiveLack())
+                {
+                    Debug.Log("Some motive lacks!");
+                    motiveValue.Stress +=
+                        motiveValue.motive.random.NextDouble()
+                        * Constants.HandlingDigit;
+                }
+
+                motiveValue.UpdateMotiveRandomly();                
+                termOfUpdateMotive = 0;
+                standardofAutomaticalUpdate = 
+                    motiveValue.motive.random.Next
+                    (
+                        Constants.MinimumofAutomaticalUpdate, 
+                        Constants.MaximumofAutomaticalUpdate
+                    );
+            }
+            else
+            {
+                termOfUpdateMotive++;                
+            }
+        }
     }
 }

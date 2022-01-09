@@ -129,108 +129,17 @@ namespace Model
 
         public void UpdateMotiveRandomly()
         {
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() * 
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Fun += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
-
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() *
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Energy += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
-
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() *
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Hunger += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
-
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() *
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Social += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
-
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() *
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Stress += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
-
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() *
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Hygiene += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
-
-            try
-            {
-                var value = 
-                    motive.random.NextDouble() *
-                    Converter<bool>.ConvertBoolToDouble
-                    (
-                        motive.random.NextDouble() > Constants.IncreaseOrDecreasePoint
-                    ) * Constants.HandlingDigit;
-                this.Urine += value;
-            }
-            catch (ArgumentException exception)
-            {
-            }
+            this.Fun -= motive.random.NextDouble() * Constants.HandlingDigit;
+            this.Energy -= motive.random.NextDouble() * Constants.HandlingDigit;
+            this.Hunger -= motive.random.NextDouble() * Constants.HandlingDigit;
+            this.Social -= motive.random.NextDouble() * Constants.HandlingDigit;
+            this.Hygiene -= motive.random.NextDouble() * Constants.HandlingDigit;
+            this.Urine -= motive.random.NextDouble() * Constants.HandlingDigit;
         }
 
         public bool DoesMotiveLack()
         {
-            if
+            if 
             (
                 this.Fun <= this.motive.LackMotive
                 || this.Energy <= this.motive.LackMotive
