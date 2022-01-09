@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Realms;
+using Module;
 
 namespace Model
 {
@@ -13,18 +14,38 @@ namespace Model
             get; set;
         }
 
-        public IDictionary<string, double> Expressions
+        public int StandardtoRememberWord
         {
-            get;
+            get; set;
+        }
+
+        public string NotyetRememberedWords
+        {
+            get; set;
+        }
+
+        public string RememberedWords
+        {
+            get; set;
         }
 
         public Language()
         {
         }
 
-        public Language(Guid id)
+        public Language(Guid ID)
         {
-            this.ID = id;
+            var random = new System.Random();
+
+            this.ID = ID;
+            this.StandardtoRememberWord = 
+                random.Next
+                (
+                    Constants.MinStandardtoRememberWord, 
+                    Constants.MaxStandardtoRememberWord
+                );
+            this.NotyetRememberedWords = "{}";
+            this.RememberedWords = "{}";
         }
     }
 }
