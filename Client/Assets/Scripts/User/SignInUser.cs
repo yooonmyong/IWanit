@@ -44,6 +44,7 @@ namespace User
                 case 422:
                     Debug.Log("Trying to access using invalid userID");
                     toastPopup.Appear();
+                    userPWDField.Clear();
                     break;
                 case 500:
                     Debug.Log("Server or database error occured");

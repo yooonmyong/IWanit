@@ -51,6 +51,8 @@ namespace User
 
                 tostMessage.text = errorcase.GetErrorcase(errorMessage);
                 toastPopup.Appear();
+                userPWDField.Clear();
+                repeatedUserPWDField.Clear();
             }
             else
             {
