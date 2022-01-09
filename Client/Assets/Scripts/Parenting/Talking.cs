@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Controller;
 using UI;
 
 namespace Parenting
@@ -10,12 +11,13 @@ namespace Parenting
     {
         public TalkingPopup talkingPopup;
         public InputField speechField;
+        public LanguageController languageController;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                Talk();
+                Talk(speechField.text);
             }
         }
 
@@ -25,8 +27,9 @@ namespace Parenting
             talkingPopup.OpenPopUp();
         }
 
-        private void Talk()
+        private void Talk(string word)
         {
+            languageController.CollectWord(word);
         }
     }
 }

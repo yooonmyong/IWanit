@@ -22,8 +22,17 @@ namespace Module
                 output += ", ";
             }
 
-            output = output.Remove(output.Length - 2, 2);
-            output += "}";
+            try
+            {
+                output = output.Remove(output.Length - 2, 2);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+            }
+            finally
+            {
+                output += "}";
+            }
 
             return output;
         }
