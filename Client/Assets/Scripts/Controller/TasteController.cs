@@ -21,6 +21,7 @@ namespace Controller
             {
                 SchemaVersion = 1
             };
+            
             realm = Realm.GetInstance(config);
         }
 

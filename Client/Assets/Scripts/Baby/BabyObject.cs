@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Module;
 
 namespace Baby
@@ -43,7 +41,7 @@ namespace Baby
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log($"**{www.error}");
+                Debug.Log($"{www.error}");
             }            
         }
     }
