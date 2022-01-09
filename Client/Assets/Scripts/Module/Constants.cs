@@ -8,9 +8,12 @@ namespace Module
         public const int OneDay = 86400;
         public const int SpeedOfElapsedTime = 5000;
 
-        public const int TermOfAutomaticalUpdate = 500;
-        public const double IncreaseOrDecreasePoint = 0.5;
-        public const double HandlingDigit = 0.01;
+        public const int MinimumofAutomaticalUpdate = 500;
+        public const int MaximumofAutomaticalUpdate = 100000;
+        public const double HandlingDigit = 0.1;
+
+        public const int MinStandardtoRememberWord = 3;
+        public const int MaxStandardtoRememberWord = 50;
 
         public const int MinStandardtoRememberWord = 3;
         public const int MaxStandardtoRememberWord = 50;
