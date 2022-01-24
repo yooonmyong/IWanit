@@ -7,12 +7,14 @@ namespace Parenting
 {
     public class Washing : MonoBehaviour
     {
+        public LoadingBaby loadingBaby;
         public MotiveController motiveController;
 
-        private void Awake()
+        private void Start()
         {
+            StartCoroutine(InitCoroutine());
         }
-        
+
         private void Update()
         {
         }
@@ -28,7 +30,12 @@ namespace Parenting
         }
 
         private void Wash()
+        private IEnumerator InitCoroutine()
         {
+            yield return new WaitUntil
+            (
+                () => loadingBaby.babyObject != null
+            );
         }
     }
 }

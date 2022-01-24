@@ -11,14 +11,14 @@ namespace Controller
 {
     public class MotiveController : MonoBehaviour
     {
+        public LoadingBaby loadingBaby;
         private Realm realm;
         private MotiveValue motiveValue;
-        private GameObject baby;
         private int standardofAutomaticalUpdate = 0;
         private int termOfUpdateMotive = 0;
         private bool isTantrum = false;
 
-        private void OnEnable()
+        private void Awake()
         {
             var config = new RealmConfiguration(Config.dbPath)
             {
@@ -30,7 +30,7 @@ namespace Controller
 
         private void Start()
         {
-            StartCoroutine(SetControllerCoroutine());
+            StartCoroutine(InitCoroutine());
         }
 
         private void Update()
@@ -141,23 +141,26 @@ namespace Controller
             }
         }
 
-        private IEnumerator SetControllerCoroutine()
+        private IEnumerator InitCoroutine()
         {
             yield return new WaitUntil
             (
-                () => GameObject.Find("Baby(Clone)") != null
+                () => loadingBaby.babyObject != null
             );
-            baby = GameObject.Find("Baby(Clone)");
-            var id = Guid.Parse(baby.GetComponent<BabyObject>().GetBaby().UUID);
+            
+            var id = Guid.Parse(loadingBaby.babyObject.GetBaby().UUID);
             Motive motive = realm.Find<Motive>(id);
+
             if (motive == null)
             {
                 Debug.Log("Create new motive local database");
                 double intensity =
-                    Decimal.ToDouble(baby
-                        .GetComponent<BabyObject>()
+                    Decimal.ToDouble
+                    (
+                        loadingBaby.babyObject
                         .GetBaby()
-                        .Temperament["intensity"]);
+                        .Temperament["intensity"]
+                    );
                 double motiveLackPoint = 
                     (intensity * Constants.FullMotive) % 
                     (Constants.FullMotive / 2);

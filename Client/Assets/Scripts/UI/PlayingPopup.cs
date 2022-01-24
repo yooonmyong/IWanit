@@ -17,8 +17,8 @@ namespace UI
     {
         public Button closingButton;
         public GameObject UIelementPrefab;
+        public LoadingBaby loadingBaby;
         public Playing playingGameObject;
-        private uint babyMonths;
         private List<PlayingInfo> listofPlayingInfo;
         private Sprite playingSprite;
         private float increasingRowInterval = 0f;
@@ -26,10 +26,9 @@ namespace UI
 
         private void Start()
         {
-            closingButton.onClick.AddListener(() => ClosePopUp());
             StartCoroutine(LoadPlayingInfoCoroutine());
-            StartCoroutine(SetMonthsCoroutine());
             StartCoroutine(RenderPlayingCoroutine());
+            closingButton.onClick.AddListener(() => ClosePopUp());
         }
 
         public void OpenPopUp()
@@ -64,17 +63,6 @@ namespace UI
                 JsonConvert.DeserializeObject<List<PlayingInfo>>(response);
         }
 
-        private IEnumerator SetMonthsCoroutine()
-        {
-            yield return new WaitUntil
-            (
-                () => GameObject.Find("Baby(Clone)") != null
-            );
-            var baby =
-                GameObject.Find("Baby(Clone)").GetComponent<BabyObject>();
-            babyMonths = baby.GetBaby().Months;
-        }
-
         private IEnumerator RenderPlayingCoroutine()
         {
             yield return new WaitUntil
@@ -98,7 +86,11 @@ namespace UI
 
                 playing.AddComponent<PlayingObject>().Init(listofPlayingInfo[i]);
                 name.GetComponent<Text>().text = listofPlayingInfo[i].KoreanName;
-                if (babyMonths < listofPlayingInfo[i].ProperMonths)
+                if 
+                (
+                    loadingBaby.babyObject.GetBaby().Months < 
+                    listofPlayingInfo[i].ProperMonths
+                )
                 {
                     playingSprite =
                         Resources.Load<Sprite>
