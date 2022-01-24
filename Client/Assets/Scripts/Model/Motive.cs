@@ -137,7 +137,7 @@ namespace Model
             this.Urine -= motive.random.NextDouble() * Constants.HandlingDigit;
         }
 
-        public bool DoesMotiveLack()
+        public bool IsMotiveLack()
         {
             if 
             (

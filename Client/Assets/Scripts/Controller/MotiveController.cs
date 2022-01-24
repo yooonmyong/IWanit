@@ -16,7 +16,6 @@ namespace Controller
         private MotiveValue motiveValue;
         private int standardofAutomaticalUpdate = 0;
         private int termOfUpdateMotive = 0;
-        private bool isTantrum = false;
 
         private void Awake()
         {
@@ -57,7 +56,7 @@ namespace Controller
             realm.Dispose();
         }
 
-        public bool DoesEnergyLack()
+        public bool IsEnergyLack()
         {
             if (motiveValue.Energy <= motiveValue.motive.LackMotive)
             {
@@ -69,76 +68,35 @@ namespace Controller
             }
         }
 
-        public bool DoesFunLack()
+        public bool IsFunLack()
         {
-            if (motiveValue.Fun <= motiveValue.motive.LackMotive)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return motiveValue.Fun <= motiveValue.motive.LackMotive;
         }
 
-        public bool DoesHungerLack()
+        public bool IsHungerLack()
         {
-            if (motiveValue.Hunger <= motiveValue.motive.LackMotive)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return motiveValue.Hunger <= motiveValue.motive.LackMotive;
         }
 
-        public bool DoesHygieneLack()
+        public bool IsHygieneLack()
         {
-            if (motiveValue.Hygiene <= motiveValue.motive.LackMotive)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return motiveValue.Hygiene <= motiveValue.motive.LackMotive;
         }        
 
-        public bool DoesSocialLack()
+        public bool IsSocialLack()
         {
-            if (motiveValue.Social <= motiveValue.motive.LackMotive)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return motiveValue.Social <= motiveValue.motive.LackMotive;
         }
 
-        public bool DoesStressFull()
+        public bool IsStressFull()
         {
-            if (motiveValue.Stress <= Constants.FullMotive)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return motiveValue.Stress >= Constants.FullMotive;
         }
 
-        public bool DoesUrineLack()
+        public bool IsUrineLack()
         {
-            if (motiveValue.Urine <= motiveValue.motive.LackMotive)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return motiveValue.Urine <= motiveValue.motive.LackMotive;
+        }
         }
 
         private IEnumerator InitCoroutine()
@@ -179,14 +137,15 @@ namespace Controller
             (
                 () => motiveValue != null
             );
-            if (DoesStressFull())
+            if (IsStressFull())
             {
-                isTantrum = true;
+            }
+            {
             }
 
             if (termOfUpdateMotive == standardofAutomaticalUpdate)
             {
-                if (motiveValue.DoesMotiveLack())
+                if (motiveValue.IsMotiveLack())
                 {
                     Debug.Log("Some motive lacks!");
                     motiveValue.Stress +=

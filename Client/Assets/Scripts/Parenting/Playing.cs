@@ -27,7 +27,7 @@ namespace Parenting
 
         public void CheckAvailable(PlayingObject playingObject)
         {
-            if (motiveController.DoesEnergyLack())
+            if (motiveController.IsEnergyLack())
             {
                 Debug.Log("Baby doesn't have energy much as to play!");                
             }
