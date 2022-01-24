@@ -17,6 +17,7 @@ namespace UI
     {
         public Button closingButton;
         public GameObject UIelementPrefab;
+        public LoadingBaby loadingBaby;
         public Meal meal;
         private uint babyMonths;
         private List<FoodInfo> listofFoodInfo;
@@ -26,10 +27,9 @@ namespace UI
 
         private void Start()
         {
-            closingButton.onClick.AddListener(() => ClosePopUp());
             StartCoroutine(LoadFoodInfoCoroutine());
-            StartCoroutine(SetMonthsCoroutine());
-            StartCoroutine(RenderFoodCoroutine());            
+            StartCoroutine(RenderFoodCoroutine());
+            closingButton.onClick.AddListener(() => ClosePopUp());
         }
 
         public void OpenPopUp()
@@ -64,17 +64,6 @@ namespace UI
                 JsonConvert.DeserializeObject<List<FoodInfo>>(response);
         }
 
-        private IEnumerator SetMonthsCoroutine()
-        {
-            yield return new WaitUntil
-            (
-                () => GameObject.Find("Baby(Clone)") != null
-            );
-            var baby =
-                GameObject.Find("Baby(Clone)").GetComponent<BabyObject>();
-            babyMonths = baby.GetBaby().Months;
-        }
-
         private IEnumerator RenderFoodCoroutine()
         {
             yield return new WaitUntil
@@ -98,7 +87,11 @@ namespace UI
 
                 food.AddComponent<FoodObject>().Init(listofFoodInfo[i]);
                 name.GetComponent<Text>().text = listofFoodInfo[i].KoreanName;
-                if (babyMonths < listofFoodInfo[i].ProperMonths)
+                if 
+                (
+                    loadingBaby.babyObject.GetBaby().Months < 
+                    listofFoodInfo[i].ProperMonths
+                )
                 {
                     foodSprite =
                         Resources.Load<Sprite>

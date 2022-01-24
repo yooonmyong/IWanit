@@ -12,15 +12,15 @@ namespace Controller
 {
     public class TimeController : MonoBehaviour
     {
+        public LoadingBaby loadingBaby;
         public Model.Time time;
         public SteeringWheel steeringWheel;
         private Realm realm;
-        private GameObject baby;
         private int elapsedDays;
         private float elapsedTime;
         private bool isPaused;
 
-        private void OnEnable()
+        private void Awake()
         {
             var config = new RealmConfiguration(Config.dbPath)
             {
@@ -33,7 +33,7 @@ namespace Controller
 
         private void Start()
         {
-            StartCoroutine(SetControllerCoroutine());
+            StartCoroutine(InitCoroutine());
         }
 
         private void Update()
@@ -57,7 +57,7 @@ namespace Controller
                 {
                     if (elapsedDays == Constants.OneMonths)
                     {
-                        baby.GetComponent<BabyObject>().GetBaby().Months++;
+                        loadingBaby.babyObject.GetBaby().Months++;
                         elapsedDays = 0;
                     }
                 }
@@ -85,14 +85,15 @@ namespace Controller
             realm.Dispose();
         }
 
-        private IEnumerator SetControllerCoroutine()
+        private IEnumerator InitCoroutine()
         {
             yield return new WaitUntil
             (
-                () => GameObject.Find("Baby(Clone)") != null
+                () => loadingBaby.babyObject != null
             );
-            baby = GameObject.Find("Baby(Clone)");
-            var id = Guid.Parse(baby.GetComponent<BabyObject>().GetBaby().UUID);
+            
+            var id = Guid.Parse(loadingBaby.babyObject.GetBaby().UUID);
+
             time = realm.Find<Model.Time>(id);
             if (time == null)
             {
@@ -105,6 +106,6 @@ namespace Controller
 
             elapsedTime = time.CurrentTime;
             elapsedDays = time.ElapsedDays;
-        }        
+        }
     }
 }

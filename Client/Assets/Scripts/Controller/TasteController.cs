@@ -11,11 +11,11 @@ namespace Controller
 {
     public class TasteController : MonoBehaviour
     {
+        public LoadingBaby loadingBaby;
         private Realm realm;
         private Taste taste;
-        private GameObject baby;
 
-        private void OnEnable()
+        private void Awake()
         {
             var config = new RealmConfiguration(Config.dbPath)
             {
@@ -27,17 +27,23 @@ namespace Controller
 
         private void Start()
         {
-            StartCoroutine(SetControllerCoroutine());
+            StartCoroutine(InitCoroutine());
         }
 
-        private IEnumerator SetControllerCoroutine()
+        private void OnDisable()
+        {
+            realm.Dispose();
+        }
+
+        private IEnumerator InitCoroutine()
         {
             yield return new WaitUntil
             (
-                () => GameObject.Find("Baby(Clone)") != null
-            );            
-            baby = GameObject.Find("Baby(Clone)");
-            var id = Guid.Parse(baby.GetComponent<BabyObject>().GetBaby().UUID);
+                () => loadingBaby.babyObject != null
+            );
+            
+            var id = Guid.Parse(loadingBaby.babyObject.GetBaby().UUID);
+
             taste = realm.Find<Taste>(id);
             if (taste == null)
             {
@@ -47,11 +53,6 @@ namespace Controller
                     taste = realm.Add(new Taste(id));
                 });
             }
-        }
-
-        private void OnDisable()
-        {
-            realm.Dispose();
         }
     }
 }

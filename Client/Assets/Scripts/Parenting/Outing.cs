@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Baby;
 using Controller;
 
 namespace Parenting
 {
     public class Outing : MonoBehaviour
     {
-        private void Awake()
+        public LoadingBaby loadingBaby;
         public MotiveController motiveController;
+                
+        private void Start()
         {
+            StartCoroutine(InitCoroutine());
         }
         
         private void Update()
@@ -36,6 +40,22 @@ namespace Parenting
 
         private void GoOut()
         {
+        }
+
+        private IEnumerator InitCoroutine()
+        {
+            yield return new WaitUntil
+            (
+                () => loadingBaby.babyObject != null
+            );
+
+            var baby = loadingBaby.babyObject;
+            Dictionary<string, Decimal> temperament = 
+                baby.GetBaby().Temperament;
+
+            babyActivity = Decimal.ToDouble(temperament["activity"]);
+            outingProbability = 
+                new double[]{ babyActivity, 1.0f - babyActivity };
         }
     }
 }

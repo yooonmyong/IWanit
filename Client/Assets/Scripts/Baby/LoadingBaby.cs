@@ -16,18 +16,19 @@ namespace Baby
 {
     public class LoadingBaby : MonoBehaviour
     {
-        public GameObject baby;
+        public GameObject babyPrefab;
+        public BabyObject babyObject;
         public Text date;
         public TimeController timeController;
         public SettingNamePopup settingNamePopup;
         private BabyInfo babyInfo;
 
-        public void Start()
+        private void Awake()
         {
             StartCoroutine(LoadBabyInfoCoroutine());
         }
 
-        public void Update()
+        private void Update()
         {
             try
             {
@@ -60,15 +61,17 @@ namespace Baby
                     (
                         www.downloadHandler.data
                     );
+
                 babyInfo =
                     JsonConvert.DeserializeObject<BabyInfo>(response);
-                baby =
+                babyPrefab =
                     Instantiate
                     (
-                        baby, new Vector3(0, 0, 0), Quaternion.identity
+                        babyPrefab, new Vector3(0, 0, 0), Quaternion.identity
                     );
-                baby.AddComponent<BabyObject>().Init(babyInfo);
                 RenderBaby();
+                babyPrefab.AddComponent<BabyObject>().Init(babyInfo);
+                babyObject = babyPrefab.GetComponent<BabyObject>();
             }
         }
 

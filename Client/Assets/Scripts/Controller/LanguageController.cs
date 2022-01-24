@@ -13,15 +13,15 @@ namespace Controller
 {
     public class LanguageController : MonoBehaviour
     {
+        public LoadingBaby loadingBaby;
         private Realm realm;
         private Language language;
-        private GameObject baby;
         private Dictionary<string, int> notyetRememberedWords;
         private Dictionary<string, int> rememberedWords;
         private List<string> alreadyRememberedWords;
         private System.Random random;
 
-        private void OnEnable()
+        private void Awake()
         {
             var config = new RealmConfiguration(Config.dbPath)
             {
@@ -35,7 +35,7 @@ namespace Controller
 
         private void Start()
         {
-            StartCoroutine(SetControllerCoroutine());
+            StartCoroutine(InitCoroutine());
         }
 
         private void Update()
@@ -75,6 +75,41 @@ namespace Controller
             }
         }
 
+        private IEnumerator InitCoroutine()
+        {
+            yield return new WaitUntil
+            (
+                () => loadingBaby.babyObject != null
+            );
+            
+            var id = Guid.Parse(loadingBaby.babyObject.GetBaby().UUID);
+
+            language = realm.Find<Language>(id);
+            if (language == null)
+            {
+                Debug.Log("Create new language local database");
+                realm.Write(() =>
+                {
+                    language = realm.Add(new Language(id));
+                });
+                notyetRememberedWords = new Dictionary<string, int>();
+                rememberedWords = new Dictionary<string, int>();
+            }
+            else
+            {
+                notyetRememberedWords = 
+                    JsonConvert.DeserializeObject<Dictionary<string, int>>
+                    (
+                        language.NotyetRememberedWords
+                    );
+                rememberedWords =
+                    JsonConvert.DeserializeObject<Dictionary<string, int>>
+                    (
+                        language.RememberedWords
+                    );
+            }
+        }
+
         private IEnumerator RankWordCoroutine()
         {
             yield return new WaitUntil
@@ -110,42 +145,6 @@ namespace Controller
                     Converter<int>.ConvertDictionaryToJson(rememberedWords);
             });
             alreadyRememberedWords.Clear();
-        }
-
-        private IEnumerator SetControllerCoroutine()
-        {
-            yield return new WaitUntil
-            (
-                () => GameObject.Find("Baby(Clone)") != null
-            );
-            baby = GameObject.Find("Baby(Clone)");
-
-            var id = Guid.Parse(baby.GetComponent<BabyObject>().GetBaby().UUID);
-
-            language = realm.Find<Language>(id);
-            if (language == null)
-            {
-                Debug.Log("Create new language local database");
-                realm.Write(() =>
-                {
-                    language = realm.Add(new Language(id));
-                });
-                notyetRememberedWords = new Dictionary<string, int>();
-                rememberedWords = new Dictionary<string, int>();
-            }
-            else
-            {
-                notyetRememberedWords = 
-                    JsonConvert.DeserializeObject<Dictionary<string, int>>
-                    (
-                        language.NotyetRememberedWords
-                    );
-                rememberedWords =
-                    JsonConvert.DeserializeObject<Dictionary<string, int>>
-                    (
-                        language.RememberedWords
-                    );
-            }
         }
     }
 }
