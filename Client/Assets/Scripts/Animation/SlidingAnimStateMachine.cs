@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI;
 
-namespace UI
+namespace Animation
 {
     public class SlidingAnimStateMachine : StateMachineBehaviour
     {
@@ -11,7 +12,7 @@ namespace UI
             Animator animator, AnimatorStateInfo stateInfo, int layerIndex
         )
         {
-            if (stateInfo.IsName("SlideDownUI"))
+            if (stateInfo.IsName("Slide down"))
             {
                 var talkingPopup = animator.GetComponent<TalkingPopup>();
 
