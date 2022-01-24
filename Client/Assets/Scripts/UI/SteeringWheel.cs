@@ -39,10 +39,12 @@ namespace UI
                     isPopupActive = false;
                 }
             }
+
             foreach (var collider in colliders)
             {
                 collider.enabled = !isPopupActive;
             }
+
             this.gameObject.GetComponent<Graphic>().raycastTarget = 
                 !isPopupActive;
         }

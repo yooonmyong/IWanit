@@ -27,7 +27,7 @@ namespace Parenting
 
         public void CheckAvailable(FoodObject foodObject)
         {
-            if (motiveController.DoesHungerLack())
+            if (motiveController.IsHungerLack())
             {
             }
             else

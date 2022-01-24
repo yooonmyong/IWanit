@@ -26,7 +26,7 @@ namespace Parenting
 
         private void CheckAvailable()
         {
-            if (motiveController.DoesEnergyLack())
+            if (motiveController.IsEnergyLack())
             {
                 Sleep();
             }

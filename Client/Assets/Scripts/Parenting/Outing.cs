@@ -29,7 +29,7 @@ namespace Parenting
 
         private void CheckAvailable()
         {
-            if (motiveController.DoesEnergyLack())
+            if (motiveController.IsEnergyLack())
             {
                 Debug.Log("Baby doesn't have energy much as to go out!");
             }
