@@ -97,6 +97,40 @@ namespace Controller
         {
             return motiveValue.Urine <= motiveValue.motive.LackMotive;
         }
+
+        public void UpdateEnergy(double value)
+        {
+            motiveValue.Energy += value;
+        }
+
+        public void UpdateFun(double value)
+        {
+            motiveValue.Fun += value;
+        }
+
+        public void UpdateHunger(double value)
+        {
+            motiveValue.Hunger += value;
+        }
+
+        public void UpdateHygiene(double value)
+        {
+            motiveValue.Hygiene += value;
+        }
+
+        public void UpdateSocial(double value)
+        {
+            motiveValue.Social += value;
+        }
+
+        public void UpdateStress(double value)
+        {
+            motiveValue.Stress += value;
+        }
+
+        public void UpdateUrine(double value)
+        {
+            motiveValue.Urine += value;
         }
 
         private IEnumerator InitCoroutine()
