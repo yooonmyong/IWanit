@@ -15,14 +15,21 @@ namespace Parenting
         public Animator steeringWheelAnimator;
         public Animator thermometerAnimator;
         public Animator toolsAnimator;
+        public List<Brushing> brushingTools;
+        public Camera camera;
         public LoadingBaby loadingBaby;
         public MotiveController motiveController;
         public GameObject thermometer;
+        public GameObject gauze;
+        public GameObject toothbrush;
         public Image background;
         public Toast toastPopup;
         private AnimationClip currentAnimatorClip;
         private AnimatorStateInfo currentAnimatorStateInfo;
         private Animator babyAnimator;
+        private float defaultOrthographicSize;
+        private Image babyImage;
+        private Image toothbrushImage;
 
         private void Start()
         {
@@ -84,6 +91,33 @@ namespace Parenting
                 thermometerAnimator.enabled = true;
             }
         }
+
+        public void PrepareBrushingTeeth()
+        {
+            babyAnimator.SetBool("brush", true);
+            camera.orthographicSize = Constants.ZoomIn;
+            loadingBaby.babyPrefab.transform.localPosition = 
+                Constants.BrushingTeethTransform;
+            gauze.SetActive(true);
+            brushingTools.ForEach(brushingTool => brushingTool.enabled = true);
+        }
+        private IEnumerator CheckStateCoroutine()
+        {
+            yield return new WaitUntil
+            (
+                () => brushingTools.All(brushingTool => brushingTool != null)
+            );
+            
+            if 
+            (
+                brushingTools.All
+                (
+                    brushingTool => brushingTool.enabled && brushingTool.isDone
+                )
+            )
+            {
+                UnloadBrushingTeeth();
+            }
         }
 
         private IEnumerator InitCoroutine()
@@ -92,6 +126,14 @@ namespace Parenting
             (
                 () => loadingBaby.babyObject != null
             );
+
+            babyImage = loadingBaby.babyPrefab.gameObject.GetComponent<Image>();
+            babyAnimator = 
+                loadingBaby.babyPrefab.gameObject.GetComponent<Animator>();
+            defaultOrthographicSize = camera.orthographicSize;
+            toothbrushImage = toothbrush.GetComponent<Image>();
+        }
+
         private void PrepareWashing()
         {
             var color = 
@@ -108,6 +150,31 @@ namespace Parenting
             thermometer.SetActive(true);
         }
 
+        private void UnloadBrushingTeeth()
+        {
+            brushingTools.ForEach(brushingTool => brushingTool.enabled = false);
+            gauze.SetActive(false);
+            loadingBaby.babyPrefab.transform.localPosition = 
+                Constants.InitializedTransform;
+            camera.orthographicSize = defaultOrthographicSize;
+            babyAnimator.SetBool("brush", false);
+            toothbrush.GetComponent<Button>().enabled = false;
+            toothbrushImage.sprite =
+                Resources.Load<Sprite>
+                (
+                    "Sprites/Washing/" + toothbrushImage.sprite.name + "_gray"
+                );
+            var cleanliness = 
+                Random.Range
+                (
+                    (float)Constants.MinimalCleanliness, 
+                    (float)Constants.FullMotive
+                );
+
+            motiveController.UpdateHygiene((double)cleanliness);
+            soapImage.sprite = enabledSoapImage; 
+            soap.GetComponent<Button>().enabled = true;
+        }
         }
     }
 }
