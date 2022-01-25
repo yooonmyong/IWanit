@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using UnityEngine;
 
 namespace Module
 {
@@ -19,6 +22,8 @@ namespace Module
         public const int MaxStandardtoRememberWord = 50;
 
         public const int MonthsofPottyTraining = 20;
+
+        public static readonly int[] ProperTemperatures = { 11, 17 };
         
         public const float StartingValueinRow = 0f;
         public const float StartingValueinColumn = 1f;
