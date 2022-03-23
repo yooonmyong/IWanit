@@ -9,8 +9,13 @@
 |Client|Unity|
 |Server|Nodejs, (예정)AWS EC2|
 |DB|MySQL, Realm|
-   
-   
+
+## 데이터베이스 스키마
+#### MySQL
+![image](https://user-images.githubusercontent.com/40621689/159723531-1b6995ca-2700-4449-bb59-c895547d75e9.png)
+#### Realm 로컬 DB
+![image](https://user-images.githubusercontent.com/40621689/159723753-f6006bc8-6f51-4490-9c02-9bfca064bd11.png)
+
 ## 개발 진행상황   
 #### 메인화면
 - [x] 육아 기능 연결 UI
