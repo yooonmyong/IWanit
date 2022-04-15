@@ -13,12 +13,14 @@ namespace UI
     {
         public GameObject Popups;
         public bool isPopupActive = false;
+        private Animator animator;
         private float rotatingSpeed = 1.0f;
         private Collider2D[] colliders;
 
         private void Start()
         {
             colliders = this.gameObject.GetComponentsInChildren<Collider2D>();
+            animator = this.gameObject.GetComponent<Animator>();
         }
 
         private void Update()
@@ -27,8 +29,11 @@ namespace UI
             {
                 if 
                 (
-                    transform.gameObject != Popups.gameObject &&
-                    transform.gameObject.activeSelf
+                    animator.GetBool("hidden") ||
+                    (
+                        transform.gameObject != Popups.gameObject &&
+                        transform.gameObject.activeSelf
+                    )
                 )
                 {
                     isPopupActive = true;

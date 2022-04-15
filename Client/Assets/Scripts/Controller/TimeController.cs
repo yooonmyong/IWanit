@@ -85,6 +85,11 @@ namespace Controller
             realm.Dispose();
         }
 
+        public bool IsNight()
+        {
+            return Math.Round((Decimal)elapsedTime) >= Constants.StandardofNight;
+        }
+
         private IEnumerator InitCoroutine()
         {
             yield return new WaitUntil
