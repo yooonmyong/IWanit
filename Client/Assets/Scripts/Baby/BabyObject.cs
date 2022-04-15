@@ -8,22 +8,35 @@ namespace Baby
 {
     public class BabyObject : MonoBehaviour
     {
+        private Animator animator;
         private BabyInfo babyInfo;
-        
-        public void Init(BabyInfo babyInfo)
+
+        private void OnMouseEnter()
         {
-            this.babyInfo = babyInfo;
-            this.transform.localPosition = new Vector3(0, 0, 1);
+            animator.SetBool("smile", true);
         }
 
-        public BabyInfo GetBaby()
+        private void OnMouseExit()
         {
-            return babyInfo;
+            animator.SetBool("smile", false);
         }
 
         private void OnApplicationQuit()
         {
             StartCoroutine(SaveBabyInfoCoroutine());
+        }
+
+        public void Init(BabyInfo babyInfo)
+        {
+            this.babyInfo = babyInfo;
+            this.transform.localPosition = Constants.InitializedTransform;
+            animator = this.gameObject.GetComponent<Animator>();
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        }
+
+        public BabyInfo GetBaby()
+        {
+            return babyInfo;
         }
 
         private IEnumerator SaveBabyInfoCoroutine()
