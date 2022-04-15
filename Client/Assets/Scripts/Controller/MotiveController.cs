@@ -14,6 +14,7 @@ namespace Controller
         public LoadingBaby loadingBaby;
         private Realm realm;
         private MotiveValue motiveValue;
+        private Animator animator;
         private int standardofAutomaticalUpdate = 0;
         private int termOfUpdateMotive = 0;
 
@@ -21,6 +22,7 @@ namespace Controller
         {
             var config = new RealmConfiguration(Config.dbPath)
             {
+                // 마이그레이션
                 SchemaVersion = 1
             };
             
@@ -97,6 +99,40 @@ namespace Controller
         {
             return motiveValue.Urine <= motiveValue.motive.LackMotive;
         }
+
+        public void UpdateEnergy(double value)
+        {
+            motiveValue.Energy += value;
+        }
+
+        public void UpdateFun(double value)
+        {
+            motiveValue.Fun += value;
+        }
+
+        public void UpdateHunger(double value)
+        {
+            motiveValue.Hunger += value;
+        }
+
+        public void UpdateHygiene(double value)
+        {
+            motiveValue.Hygiene += value;
+        }
+
+        public void UpdateSocial(double value)
+        {
+            motiveValue.Social += value;
+        }
+
+        public void UpdateStress(double value)
+        {
+            motiveValue.Stress += value;
+        }
+
+        public void UpdateUrine(double value)
+        {
+            motiveValue.Urine += value;
         }
 
         private IEnumerator InitCoroutine()
@@ -129,6 +165,7 @@ namespace Controller
             }
 
             motiveValue = new MotiveValue(motive);
+            animator = loadingBaby.babyPrefab.GetComponent<Animator>();
         }
 
         private IEnumerator UpdateMotiveCoroutine()
@@ -139,8 +176,11 @@ namespace Controller
             );
             if (IsStressFull())
             {
+                animator.SetBool("cry", true);
             }
+            else
             {
+                animator.SetBool("cry", false);
             }
 
             if (termOfUpdateMotive == standardofAutomaticalUpdate)
