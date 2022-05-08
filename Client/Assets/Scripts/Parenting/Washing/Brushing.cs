@@ -79,10 +79,13 @@ namespace Parenting
                     Vector2 hitPoint = contact.point;
                     var bubble = bubblePool.DequeueObject();
 
+                    bubble.transform.position = 
+                        new Vector3(hitPoint.x, hitPoint.y, 1);
+                    bubble.transform.rotation = Quaternion.identity;
                     bubbles.Add(bubble);
                 }
 
-                bar.SetValue(bar.GetValue() + 1);
+                bar.SetValue(bar.GetValue() + 2);
             }
         }
     }

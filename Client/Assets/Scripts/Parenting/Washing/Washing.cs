@@ -10,7 +10,6 @@ using UI;
 
 namespace Parenting
 {
-    // WIP
     public class Washing : MonoBehaviour
     {
         public Animator steeringWheelAnimator;

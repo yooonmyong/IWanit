@@ -10,10 +10,7 @@ namespace Module
         private Vector2 rangeCenter;
         private float zValue;
 
-        public GameObject SpawnRandomPosition
-        (
-            GameObject prefab, BoxCollider2D collider, float zValue
-        )
+        public Vector3 GetRandomPosition(BoxCollider2D collider, float zValue)
         {
             var transform = collider.GetComponent<RectTransform>();
 
@@ -22,14 +19,6 @@ namespace Module
             rangeSize.y = transform.localScale.y * collider.size.y;
             this.zValue = zValue;
 
-            return Instantiate
-            (
-                prefab, GetRandomPosition(), Quaternion.identity
-            );
-        }
-
-        private Vector3 GetRandomPosition()
-        {
             Vector3 randomPosition = 
                 new Vector3
                 (

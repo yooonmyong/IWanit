@@ -74,13 +74,14 @@ namespace Parenting
 
         private void MakeCleanEffect(int leftOrRight)
         {
-            // WIP
-            var cleanEffect =
-                spawning.SpawnRandomPosition
+            var cleanEffect = cleanEffectPool.DequeueObject();
+
+            cleanEffect.transform.position = 
+                spawning.GetRandomPosition
                 (
-                    cleanEffectPrefab, cleanEffectColliders[leftOrRight], 1.0f
+                    cleanEffectColliders[leftOrRight], 1.0f
                 );
-            
+            cleanEffect.transform.rotation = Quaternion.identity;
             cleanEffects.Add(cleanEffect);
         }
     }

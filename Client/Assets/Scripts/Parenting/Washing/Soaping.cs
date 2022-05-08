@@ -41,7 +41,7 @@ namespace Parenting
             if 
             (
                 this.name.Equals("Soap") && 
-                GetAmountofBubbles() >= 
+                bubblesOnHead + bubblesOnBody >= 
                 Constants.SoapingHeadEnough + Constants.SoapingBodyEnough
             )
             {
@@ -67,19 +67,18 @@ namespace Parenting
                 {
                     soapAnimator.SetTrigger("pump");
                     MakeBubble(other);
-
                     if
                     (
-                        other.name.Equals("Head") &&
-                        bubblesOnHead < Constants.SoapingHeadEnough
+                        bubblesOnHead < Constants.SoapingHeadEnough &&
+                        other.name.Equals("Head")
                     )
                     {
                         bubblesOnHead++;
                     }
                     else if
                     (
-                        other.name.Equals("Body") &&
-                        bubblesOnBody < Constants.SoapingBodyEnough
+                        bubblesOnBody < Constants.SoapingBodyEnough &&
+                        other.name.Equals("Body")
                     )
                     {
                         bubblesOnBody++;
@@ -88,20 +87,18 @@ namespace Parenting
             }
         }
 
-        private int GetAmountofBubbles()
-        {
-            return bubblesOnHead + bubblesOnBody;
-        }
-
         private void MakeBubble(Collider2D collider)
         {
-            var amountofBubbles = Random.Range(1, 5);
+            var amountofBubbles = Random.Range(1, 3);
             BoxCollider2D boxCollider = collider as BoxCollider2D;
 
             for (var i = 0; i < amountofBubbles; i++)
             {
                 var bubble = bubblePool.DequeueObject();
 
+                bubble.transform.position = 
+                    spawning.GetRandomPosition(boxCollider, 1.0f);
+                bubble.transform.rotation = Quaternion.identity;
                 bubble.transform.localScale = Constants.BubbleScale;
                 bubbles.Add(bubble);
             }

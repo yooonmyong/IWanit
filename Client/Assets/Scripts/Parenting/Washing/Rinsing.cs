@@ -14,14 +14,12 @@ namespace Parenting
         public Soaping soaping;
         private Animator showerheadAnimator;
         private Vector2 originalTransform;
-        private List<GameObject> bubbles;
         private RectTransform rectTransform;
 
         private void Start()
         {
             this.GetComponent<Button>().enabled = false;
             isDone = false;
-            bubbles = soaping.bubbles;
             rectTransform = this.GetComponent<RectTransform>();
             originalTransform = rectTransform.anchoredPosition;
             rectTransform.anchoredPosition = Constants.CenterToolTransform;
@@ -31,7 +29,7 @@ namespace Parenting
 
         private void Update()
         {
-            if (bubbles.Count <= 0)
+            if (soaping.bubbles.Count <= 0)
             {
                 rectTransform.anchoredPosition = originalTransform;
                 showerheadAnimator.enabled = false;
@@ -48,7 +46,7 @@ namespace Parenting
         {
             if (other.name.Equals("Bubble(Clone)"))
             {
-                bubbles.Remove(other.gameObject);
+                soaping.bubbles.Remove(other.gameObject);
                 soaping.bubblePool.EnqueueObject(other.gameObject);
             }
         }
