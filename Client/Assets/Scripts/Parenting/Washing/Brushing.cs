@@ -12,17 +12,17 @@ namespace Parenting
     public class Brushing : MonoBehaviour, IDragHandler
     {
         public bool isDone;
-        public GameObject bubblePrefab;
         public Bar bar;
+        public Objectpool bubblePool;
         private Vector2 originalTransform;
         private RectTransform rectTransform;
-        private List<GameObject> generatedBubbles;
+        private List<GameObject> bubbles;
 
         private void Start()
         {
             bar.gameObject.SetActive(true);
             isDone = false;
-            generatedBubbles = new List<GameObject>();
+            bubbles = new List<GameObject>();
             rectTransform = this.GetComponent<RectTransform>();
             originalTransform = rectTransform.anchoredPosition;
             if (this.name.Equals("Gauze"))
@@ -42,9 +42,9 @@ namespace Parenting
         {
             if (bar.GetValue() >= Constants.BrushingEnough)
             {
-                foreach (var bubble in generatedBubbles)
+                foreach (var bubble in bubbles)
                 {
-                    Destroy(bubble);
+                    bubblePool.EnqueueObject(bubble);
                 }
 
                 bar.gameObject.SetActive(false);
@@ -77,15 +77,9 @@ namespace Parenting
                 foreach (ContactPoint2D contact in collision.contacts)
                 {
                     Vector2 hitPoint = contact.point;
-                    var bubble = 
-                        Instantiate
-                        (
-                            bubblePrefab, 
-                            new Vector3(hitPoint.x, hitPoint.y, 1), 
-                            Quaternion.identity
-                        );
+                    var bubble = bubblePool.DequeueObject();
 
-                    generatedBubbles.Add(bubble);
+                    bubbles.Add(bubble);
                 }
 
                 bar.SetValue(bar.GetValue() + 1);

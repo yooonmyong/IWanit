@@ -49,7 +49,7 @@ namespace Parenting
             if (other.name.Equals("Bubble(Clone)"))
             {
                 bubbles.Remove(other.gameObject);
-                Destroy(other.gameObject);
+                soaping.bubblePool.EnqueueObject(other.gameObject);
             }
         }
     }
