@@ -11,7 +11,7 @@ namespace Parenting
     public class Soaping : MonoBehaviour, IDragHandler
     {
         public bool isDone;
-        public GameObject bubblePrefab;
+        public Objectpool bubblePool;
         public List<GameObject> bubbles;
         public Spawning spawning;
         private Animator soapAnimator;
@@ -100,11 +100,7 @@ namespace Parenting
 
             for (var i = 0; i < amountofBubbles; i++)
             {
-                var bubble =
-                    spawning.SpawnRandomPosition
-                    (
-                        bubblePrefab, boxCollider, 1.0f
-                    );
+                var bubble = bubblePool.DequeueObject();
 
                 bubble.transform.localScale = Constants.BubbleScale;
                 bubbles.Add(bubble);

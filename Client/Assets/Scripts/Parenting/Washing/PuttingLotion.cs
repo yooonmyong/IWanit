@@ -14,6 +14,7 @@ namespace Parenting
         public BoxCollider2D[] cleanEffectColliders;
         public GameObject cleanEffectPrefab;
         public Spawning spawning;
+        public Objectpool cleanEffectPool;
         private Animator lotionAnimator;
         private int countingPuttingLotion;
         private List<GameObject> cleanEffects;
@@ -34,11 +35,11 @@ namespace Parenting
 
         private void Update()
         {
-            if (cleanEffects.Count >= Constants.CleanEnough)
+            if (cleanEffectPool.count == 0)
             {
                 foreach (var cleanEffect in cleanEffects)
                 {
-                    Destroy(cleanEffect);
+                    cleanEffectPool.EnqueueObject(cleanEffect);
                 }
 
                 rectTransform.anchoredPosition = originalTransform;
